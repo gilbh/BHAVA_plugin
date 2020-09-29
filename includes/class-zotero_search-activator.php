@@ -32,12 +32,13 @@ class Zotero_search_Activator {
 	public static function activate() {
 		
 		global $wpdb;
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 		$wp_prefix = $wpdb->prefix;
 		$tbl_prefix = $wp_prefix . ZS_PREFIX;
 		$charset_collate = $wpdb->get_charset_collate();
 
-		$master_type_tbl = $tbl_prefix . "master_type";
+/*		$master_type_tbl = $tbl_prefix . "master_type";
 		$master_tbl = $tbl_prefix . "master";
 
 		$sql = "CREATE TABLE $master_type_tbl (
@@ -48,7 +49,6 @@ class Zotero_search_Activator {
 		  PRIMARY KEY  (id)
 		) $charset_collate;";
 
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta( $sql );
 		
 		$sql = "CREATE TABLE $master_tbl (
@@ -59,6 +59,37 @@ class Zotero_search_Activator {
 		  time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 		  PRIMARY KEY  (id)
 		) $charset_collate;";
+
+		dbDelta( $sql );
+*/
+		$items_tbl = $tbl_prefix . "items";
+		$itemmeta_tbl = $tbl_prefix . "itemmeta";
+		$table_tbl = $tbl_prefix . "tables";
+		$sql = "CREATE TABLE $items_tbl (
+		  id mediumint(9) NOT NULL AUTO_INCREMENT,
+		  item tinytext NOT NULL,
+		  item_name tinytext NOT NULL,
+		  datetime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  PRIMARY KEY  (id)
+		) $charset_collate; ";
+
+		dbDelta( $sql );
+
+		$sql = "CREATE TABLE $itemmeta_tbl (
+		  id mediumint(9) NOT NULL AUTO_INCREMENT,
+		  item_id tinytext NOT NULL,
+		  meta_key tinytext NULL,
+		  meta_value longtext NULL,
+		  PRIMARY KEY  (id)
+		) $charset_collate; ";
+
+		dbDelta( $sql );
+
+		$sql = "CREATE TABLE $table_tbl (
+		  id mediumint(9) NOT NULL AUTO_INCREMENT,
+		  table_name tinytext NOT NULL,
+		  PRIMARY KEY  (id)
+		) $charset_collate; ";
 
 		dbDelta( $sql );
 

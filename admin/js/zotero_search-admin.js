@@ -29,4 +29,38 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 
+
+	$(document).on('click' ,'#import-zotero-data', function(e){ 
+	    e.preventDefault();
+	   	$(".spinner").addClass("is-active");
+	   	$(".wp-notice").remove();
+
+	   	var formData = new FormData($("#import-zotero-data-frm")[0])
+
+	   	 jQuery.ajax({
+		    type: "post",
+		    processData: false,
+  			contentType: false,
+		    url: wp_zs_js.ajaxurl,
+		    data: formData,
+		    success: function(response) {
+		        console.log(response);
+		    	response = JSON.parse(response);
+		        if(response.status == 'success'){
+		    		jQuery('#wpbody-content').prepend('<div class="wp-notice" ><div class="notice notice-success"><p>'+response.message+'</p></div></div>');
+		        }else{
+		    		jQuery('#wpbody-content').prepend('<div class="wp-notice" ><div class="error"><p>'+response.message+'</p></div></div>');
+		        }
+		    },
+		    error: function(error){
+		    	jQuery('#wpbody-content').prepend('<div class="wp-notice" ><div class="error"><p>'+error+'</p></div></div>');
+		    },
+		    complete: function(){
+	   			$(".spinner").removeClass("is-active");
+		    }
+		});
+
+	});
+
+
 })( jQuery );

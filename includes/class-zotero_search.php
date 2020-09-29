@@ -159,6 +159,7 @@ class Zotero_search {
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'add_menu' );
 		$this->loader->add_action( 'admin_post_zotero_import_master', $plugin_admin, 'zotero_import_master_handler');
 		$this->loader->add_action( 'admin_notices', $plugin_admin, 'admin_notices' );
+		$this->loader->add_action( 'wp_ajax_import_zotero_data', $plugin_admin, 'import_zotero_data_handler');
 
 
 	}

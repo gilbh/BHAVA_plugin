@@ -29,3 +29,15 @@
 	<input type="submit" value="<?php _e('Start Import', $this->plugin_name); ?>">
 
 </form>
+
+<h1>Import Data from Zotero API</h1>
+<form id="import-zotero-data-frm" >
+	
+	<input type="hidden" name="action" value="import_zotero_data">
+	<input type="hidden" name="import_zotero_data_api" value="<?php echo wp_create_nonce( 'import_zotero_data_api' ) ?>" />			
+	<button id="import-zotero-data">
+		Start Import
+	</button>
+	<span style="float: left;" class="spinner"></span>
+
+</form>
