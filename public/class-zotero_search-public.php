@@ -1,397 +1,597 @@
 <?php
 
-/**
- * The public-facing functionality of the plugin.
- *
- * @link       authortesting.com
- * @since      1.0.0
- *
- * @package    Zotero_search
- * @subpackage Zotero_search/public
- */
-
-/**
- * The public-facing functionality of the plugin.
- *
- * Defines the plugin name, version, and two examples hooks for how to
- * enqueue the public-facing stylesheet and JavaScript.
- *
- * @package    Zotero_search
- * @subpackage Zotero_search/public
- * @author     Test Author <author@testing.com>
- */
-class Zotero_search_Public {
+	/**
+	 * The public-facing functionality of the plugin.
+	 *
+	 * @link       shebazm@itpathsolutions.com
+	 * @since      1.0.0
+	 *
+	 * @package    Zotero_search
+	 * @subpackage Zotero_search/public
+	 */
 
 	/**
-	 * The ID of this plugin.
+	 * The public-facing functionality of the plugin.
 	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $plugin_name    The ID of this plugin.
-	 */
-	private $plugin_name;
-
-	/**
-	 * The version of this plugin.
+	 * Defines the plugin name, version, and two examples hooks for how to
+	 * enqueue the public-facing stylesheet and JavaScript.
 	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
+	 * @package    Zotero_search
+	 * @subpackage Zotero_search/public
+	 * @author     Shebaz Multani <shebazm@itpathsolutions.com>
 	 */
-	private $version;
 
-	/**
-	 * Initialize the class and set its properties.
-	 *
-	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of the plugin.
-	 * @param      string    $version    The version of this plugin.
-	 */
-	public function __construct( $plugin_name, $version ) {
-
-		$this->plugin_name = $plugin_name;
-		$this->version = $version;
-
-	}
-
-	/**
-	 * Register the stylesheets for the public-facing side of the site.
-	 *
-	 * @since    1.0.0
-	 */
-	public function enqueue_styles() {
+	class Zotero_search_Public {
 
 		/**
-		 * This function is provided for demonstration purposes only.
+		 * The ID of this plugin.
 		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Zotero_search_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Zotero_search_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
+		 * @since    1.0.0
+		 * @access   private
+		 * @var      string    $plugin_name    The ID of this plugin.
 		 */
-
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/zotero_search-public.css', array(), $this->version, 'all' );
-
-	}
-
-	/**
-	 * Register the JavaScript for the public-facing side of the site.
-	 *
-	 * @since    1.0.0
-	 */
-	public function enqueue_scripts() {
+		private $plugin_name;
 
 		/**
-		 * This function is provided for demonstration purposes only.
+		 * The version of this plugin.
 		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Zotero_search_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Zotero_search_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
+		 * @since    1.0.0
+		 * @access   private
+		 * @var      string    $version    The current version of this plugin.
 		 */
+		private $version;
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/zotero_search-public.js', array( 'jquery' ), $this->version, false );
+		/**
+		 * Initialize the class and set its properties.
+		 *
+		 * @since    1.0.0
+		 * @param      string    $plugin_name       The name of the plugin.
+		 * @param      string    $version    The version of this plugin.
+		 */
+		public function __construct( $plugin_name, $version ) {
 
-	}
+			$this->plugin_name = $plugin_name;
+			$this->version = $version;
 
-	/**
-	 * Regsiter Shortcodes 
-	 *
-	 * @since    1.0.0
-	 */
-	public function register_shortcodes(){
+		}
 
-		add_shortcode( 'form_control_table', array( $this, 'form_control_table_callable') );
+		/**
+		 * Register the stylesheets for the public-facing side of the site.
+		 *
+		 * @since    1.0.0
+		 */
+		public function enqueue_styles() {
 
-	}
+			/**
+			 * This function is provided for demonstration purposes only.
+			 *
+			 * An instance of this class should be passed to the run() function
+			 * defined in Zotero_search_Loader as all of the hooks are defined
+			 * in that particular class.
+			 *
+			 * The Zotero_search_Loader will then create the relationship
+			 * between the defined hooks and the functions defined in this
+			 * class.
+			 */
+			$vv = rand( 0, 999999999999 );
+			wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/zotero_search-public.css', array(), $vv, 'all' );
 
-	/*public function form_control_table_callable(){
-		global $wpdb;
-		$wp_prefix = $wpdb->prefix;
-		$tbl_prefix = $wp_prefix . ZS_PREFIX;
-		$master_type_tbl = $tbl_prefix . "master_type";
-		$master_tbl = $tbl_prefix . "master";
+		}
 
-		?>	
-		<style type="text/css">
-			.main_row {
-			    display: inline-block;
-			    font-size: 18px;
-			    vertical-align: top;
-			    margin-left: 10px;
-			}
-			.main_row .head_all {
-				margin: 10px 0 20px 0;
-			}
-			.main_row p {
-				margin-bottom: 8px;
-			}
-		</style>
-		<?php if( isset($_POST['action']) &&  $_POST['action'] == 'Zotero_search_call' ){
+		/**
+		 * Register the JavaScript for the public-facing side of the site.
+		 *
+		 * @since    1.0.0
+		 */
+		public function enqueue_scripts() {
 
-			$ZOTEROAPIKEY = '0W03GX7ROTMtYWtXdj1fwCsa';
-			$ZOTEROUSERID = '783482';
+			/**
+			 * This function is provided for demonstration purposes only.
+			 *
+			 * An instance of this class should be passed to the run() function
+			 * defined in Zotero_search_Loader as all of the hooks are defined
+			 * in that particular class.
+			 *
+			 * The Zotero_search_Loader will then create the relationship
+			 * between the defined hooks and the functions defined in this
+			 * class.
+			 */
 
+			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/zotero_search-public.js', array( 'jquery' ), $this->version, false );
+			wp_localize_script( $this->plugin_name, 'zs_wpjs',
+		        [ 'ajaxurl' => admin_url( 'admin-ajax.php' ) ]
+		    );
+		}
 
-			$postData = $_POST;
-			unset($postData['action']);
-			if(isset($postData['focus-languages'])){
-				$postData['languages'] = $postData['focus-languages'];
-				unset($postData['focus-languages']);
+		public function array_sort_by_column(&$arr, $col, $dir = SORT_ASC){
+		    $sort_col = array();
+		    foreach ($arr as $key=> $row) {
+		        $sort_col[$key] = $row[$col];
+		    }
 
-			}
+		    array_multisort($sort_col, $dir, $arr);
+		}
 
-			 $curl = curl_init();
-			 curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-			 curl_setopt($curl, CURLOPT_HEADER, 1);
+		public function search_items_callback( $search_data ){
+			
+			global $wpdb;
+			
 
+			$ZOTEROAPIKEY = get_option(ZS_PREFIX.'api_key');
+			$ZOTEROUSERID = get_option(ZS_PREFIX.'user_id');
+			$ZOTEROAPIURL = get_option(ZS_PREFIX.'api_url');  
 
-			 // $requset_url = ZOTEROAPIURL . "/users/6829294/items";
-			 $requset_url = ZOTEROAPIURL ."/groups/". $ZOTEROUSERID . "/items";
-			 curl_setopt_array($curl, array(
-			   CURLOPT_URL => $requset_url	,
-			   CURLOPT_RETURNTRANSFER => true,
-			   CURLOPT_ENCODING => "",
-			   CURLOPT_MAXREDIRS => 10,
-			   CURLOPT_TIMEOUT => 0,
-			   CURLOPT_FOLLOWLOCATION => true,
-			   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-			   CURLOPT_CUSTOMREQUEST => "GET",
-			   CURLOPT_HTTPHEADER => array(
-				 "Zotero-API-Key: ".$ZOTEROAPIKEY
-			   ),
-			 ));
-			$response = curl_exec($curl);
-			$header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
-			$header = substr($response, 0, $header_size);
-			$body = substr($response, $header_size);
-			$resp = json_decode($body, true);
-			$parentItems = [];
-			echo '<ul>';
-			foreach($resp as $r){
-				if(isset($r['data']['note'])){
-					$note = $r['data']['note'];
-					$note = strip_tags($note, '<br>');
-					$note = str_replace('<br />', '<<n>>', $note);
-					$note = str_replace('<br/>', '<<n>>', $note);
-					$note = str_replace('<br>', '<<n>>', $note);
-					$note = explode('<<n>>', $note);
-					foreach($note as $n){
-						foreach($postData as $post_key => $post_value){
-							//check if search key exists in api responce
-							if(strpos(strtolower($n), strtolower($post_key) ) !== false ){
-								$na = explode('=', $n);
-								if(isset($na[1]) && !empty($na[1])){
-									$options = explode('|',$na[1]);
-									$options = array_map('strtolower', $options);
-									$options = array_map('trim', $options);
-									$diff = array_diff($options, $post_value);
-									if(count($options) != count($diff)){
-										$parentItems[] = $r['data']['parentItem'];
+			$wp_prefix    = $wpdb->prefix;
+			$tbl_prefix   = $wp_prefix . ZS_PREFIX;
+			$table_tbl    = $tbl_prefix . "tables";
+			$itemmeta_tbl = $tbl_prefix . "itemmeta";
+			$tinyurl_tbl  = $tbl_prefix . "tinyurl";
+			$response     = ['status' => 'error', 'msg' => 'Something went wrong.'];
+
+			$search_data  = (isset($_POST) && !empty($_POST)) ? $_POST : $search_data;
+
+			if(!empty($ZOTEROAPIKEY) && !empty($ZOTEROUSERID) && !empty($ZOTEROAPIURL) ){
+				$t = $wpdb->get_var("SELECT count(item_id) FROM $itemmeta_tbl LIMIT 1");
+				if($t > 0){
+					$data_items = [];
+
+					//if(isset($search_data) && !empty($search_data) && count($search_data) > 3){
+					if(isset($search_data) && !empty($search_data) && count($search_data) > 1){
+						if(isset($search_data['keyword']) && !empty($search_data['keyword'])){
+							$keyword = $search_data['keyword'];
+							$mytables = $wpdb->get_results("SELECT * FROM $table_tbl WHERE table_name != 'master'");
+							if(!empty($mytables)){
+								foreach($mytables as $mytable){
+									$table_name 	= $mytable->table_name;
+									$table_tbl_name = $tbl_prefix . $table_name;
+									$table_slug_id  = $mytable->id;
+
+									$keyword_id = $wpdb->get_var("SELECT ID FROM $table_tbl_name WHERE $table_name LIKE '%$keyword%' " );
+									if(!empty($keyword_id)){
+										$search_data[$table_slug_id][] = $keyword_id;
 									}
 								}
 							}
 						}
-					}
-				}
-			}
-			if(!empty($parentItems)) {
-				$parentItems = array_unique($parentItems);
-				foreach($parentItems as $item){
-					$curl = curl_init();
-					 curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-					 curl_setopt($curl, CURLOPT_HEADER, 1);
-
-					 // $requset_url = ZOTEROAPIURL . "/users/6829294/items/" . $item;
-					 $requset_url = ZOTEROAPIURL ."/groups/". $ZOTEROUSERID . "/items/" .$item ;
-					 curl_setopt_array($curl, array(
-					   CURLOPT_URL => $requset_url	,
-					   CURLOPT_RETURNTRANSFER => true,
-					   CURLOPT_ENCODING => "",
-					   CURLOPT_MAXREDIRS => 10,
-					   CURLOPT_TIMEOUT => 0,
-					   CURLOPT_FOLLOWLOCATION => true,
-					   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-					   CURLOPT_CUSTOMREQUEST => "GET",
-					   CURLOPT_HTTPHEADER => array(
-						 "Zotero-API-Key: ".$ZOTEROAPIKEY
-					   ),
-					 ));
-					 $response = curl_exec($curl);
-					 $header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
-					$header = substr($response, 0, $header_size);
-					$body = substr($response, $header_size);
-					$resp = json_decode($body, true);
-					echo '<li>'.$resp['data']['title'].'</li>';
-					//echo '<br>';
-				}
-			}
-			echo '</ul>';
-		}else{ ?>
-			<form method="post">
-				<input type="hidden" name="action" value="Zotero_search_call">
-				<div class="main">
-					<?php $types = $wpdb->get_results("SELECT * FROM $master_type_tbl"); ?>
-					<?php if($types) { 
-						foreach($types as $type) { ?> 
-						<div class="main_row">
-							<strong><?php echo $type->name; ?></strong>
-							<label class="head_all"> <input class="check_all" type="checkbox" name="<?php echo $type->slug; ?>" value="all"> All </label>
-							<?php $master = $wpdb->get_results("SELECT * FROM $master_tbl WHERE type_id = $type->id");
-							if($master){
-								foreach($master as $m){ ?>
-									<p><label class="<?php echo $type->slug; ?>">
-										<input type="checkbox" name="<?php echo $type->slug; ?>[]" value="<?php echo $m->slug; ?>"> 
-										<?php echo $m->name; ?></label>
-									</p>
-								<?php }
-							} ?>
-						</div>
-						<?php }
-					} ?>
-				</div>
-				<input type="submit" name="" value="Search">
-			</form>
-		<?php } ?>
-		<script type="text/javascript">
-			jQuery('.check_all').change(function(){
-				name = jQuery(this).attr('name')
-				jQuery('input[name^="'+name+'"]').prop("checked" , this.checked);
-			});
-		</script>
-		<?php
-	}*/
-
-	public function form_control_table_callable(){ 
-		global $wpdb;
-		$wp_prefix = $wpdb->prefix;
-		$tbl_prefix = $wp_prefix . ZS_PREFIX;
-		$table_tbl = $tbl_prefix . "tables";
-
-		$items_tbl = $tbl_prefix . "items";
-		$itemmeta_tbl = $tbl_prefix . "itemmeta";
-
-		$ZOTEROAPIKEY = '0W03GX7ROTMtYWtXdj1fwCsa';
-		$ZOTEROUSERID = '783482';
-
-		$data_items = [];
-		if(isset($_POST) && !empty($_POST)){
-			foreach($_POST as $key => $values ){
-				$compare = '';
-				$query = "SELECT DISTINCT item_id FROM $itemmeta_tbl WHERE "; 
-				if(isset($_POST[$key . '_all']) ){
-					$compare = " meta_key = '$key' ";
-				}else{
-					if(!empty($values) && is_array($values)){
-						foreach($values as $val){
-							$compare .= " ( meta_key = '$key' AND meta_value = '$val' ) OR";
+						
+						/*
+						$mainQuery = '';
+						$sqlI = 0;
+						foreach($search_data as $key => $values ){
+							$compare = '';
+							if(isset($search_data[$key . '_all']) ){
+								$compare = " meta_key = '$key' ";
+							}else{
+								if(!empty($values) && is_array($values)){
+									foreach($values as $val){
+										$compare .= " ( meta_key = '$key' AND meta_value = '$val' ) OR";
+									}
+									$compare = substr_replace($compare,"",-2);
+								}
+							}
+							if(!empty($compare)){ $sqlI++;
+								$query = "SELECT DISTINCT item_id FROM $itemmeta_tbl WHERE " . " ( ".$compare." ) AND item_id IN ( "; 
+								$mainQuery .= $query ;
+							}
 						}
-						$compare = substr_replace($compare,"",-2);
-					}
-				}
-				if(!empty($compare)){
-					$query .= $compare;
-					$items = $wpdb->get_col($query);
-					if(!empty($items)){
-						$data_items = array_merge($data_items, $items);
-					}
-				}
-			}
-			if(!empty($data_items)){
-				$data_items = array_unique($data_items);
-				echo '<ul>';
-				foreach($data_items as $item){
-					$item_name = $wpdb->get_var("SELECT item_name FROM $items_tbl WHERE ID = $item");
-					if($item_name){
-						echo '<li>'.$item_name.'</li>';
-					}	
-				}
-				echo '</ul>';
-			}else{
-				echo 'No items Found!';
-			}
+						for($i=1;$i<=$sqlI;$i++) $mainQuery .=  ' ) ';
+						$mainQuery = str_replace(' AND item_id IN (  ) ','',$mainQuery);
+						if(!empty($mainQuery)){
+							$items = $wpdb->get_col($mainQuery);
+							if(!empty($items)){
+								$data_items = array_merge($data_items, $items);
+							}
+						}
+						*/
+						
+						$joinQuery = "";
+						$joinWhere = "WHERE";
+						$AS = "A";
+						$tempData = $search_data;
+						$all_checked = $tempData['all_checked'];
+						
+						unset($tempData['action']);
+						unset($tempData['keyword']);
+						unset($tempData['all_checked']);
+						
+						$joinQuery = "SELECT DISTINCT {$AS}.item_id FROM $itemmeta_tbl AS $AS ";
+						if (!empty($all_checked)) {
+							$all_checked = explode(',', trim($all_checked, ','));
+							$meta_value = $all_checked[0];
+							$joinWhere .= " {$AS}.meta_key = $meta_value AND";
+							$totalAll = count($all_checked);
+							unset($tempData[$meta_value.'_all']);
+							unset($tempData[$meta_value]);
+							if ($totalAll > 1) {
+								for ($i = 1; $i < $totalAll; $i++ ) {
+									if(!empty($all_checked[$i])){
+										$AS++; $ASS = chr(ord($AS)-1);
+										$meta_value = $all_checked[$i];
+										unset($tempData[$meta_value.'_all']);
+										unset($tempData[$meta_value]);
+										$joinQuery .= "INNER JOIN $itemmeta_tbl AS $AS ON {$ASS}.item_id = {$AS}.item_id ";
+										$joinWhere .= " {$AS}.meta_key = $meta_value AND";
+									}
+								}
+							}
+						}
+						if (!empty($tempData)) {
+							$first = true;
+							foreach($tempData as $key => $values) {
+								if (!empty($values) && is_array($values)) {
+									if(!empty($all_checked) || !$first){
+										$AS++; $ASS = chr(ord($AS)-1);
+										$joinQuery .= "INNER JOIN $itemmeta_tbl AS $AS ON {$ASS}.item_id = {$AS}.item_id ";
+									} $first = false;
+									$meta_value = implode(',', $values);
+									$joinWhere .= " ( {$AS}.meta_key = $key AND {$AS}.meta_value IN ($meta_value) ) AND";
+								}
+							}
+						}
+						$mainQuery = $joinQuery . trim($joinWhere, 'AND');
+						$response['mainQuery'] = $mainQuery;
+						$items = $wpdb->get_col($mainQuery);
+						if(!empty($items)){
+							$data_items = array_merge($data_items, $items);
+						}
+						
+						
+						/*
+						$thisKey = $search_data['key'];
+						$thisVal = $search_data['val'];
+						$mainQuery = "SELECT DISTINCT item_id FROM $itemmeta_tbl WHERE meta_key = '$thisKey'";
+						if($thisVal != 'all'){
+							$mainQuery .= " AND meta_value = '$thisVal'";
+						}
+						if(!empty($_SESSION['data_items'])){
+							$mainQuery .= " AND item_id IN ('" .implode("','", array_map('mysql_real_escape_string', $_SESSION['data_items']))."')";
+						}
+						$response['mainQuery'] = $mainQuery;
+						$response['session'] = $_SESSION['data_items'];
+						$response['session_in'] = str_replace("','", $_SESSION['data_items']);
+						$items = $wpdb->get_col($mainQuery);
+						if(!empty($items)){
+							$data_items = array_merge($data_items, $items);
+						}
+						*/
+						
+						$found_items = count($data_items);
+						$response['found_items'] = $found_items;
+						$response['status'] 	 = 'success';
+						if(!empty($data_items)){
+							$APIDATA = [
+								'key' => $ZOTEROAPIKEY,
+								'userid' => $ZOTEROUSERID,
+								'endpoint' => $ZOTEROAPIURL,
+							]; 
+							$data_items = array_unique($data_items);
+							$data_items = implode(',', $data_items);
+							//$_SESSION['data_items'] = $data_items;
+							$response['api']		 = $APIDATA;
+							$response['data_items']  = $data_items;
+							$response['msg'] 		 = 'Data items Found.';
+
+						}else $response['msg'] = 'No items Found.';
+					}else $response['msg'] = 'No data provied to search.';
+				}else $response['msg'] = 'Please, sync data from zotero to make search work.';
+			}else $response['msg'] = 'Please add API settings.';
+			
+
+			$responseData =  json_encode($response);
+
+
+			if (defined('DOING_AJAX') && DOING_AJAX){
+				echo $responseData;
+				wp_die();
+			}else return $responseData;
+
 		}
-		
-		
-		?>
-		<style type="text/css">
-			.main_row {
-			    display: inline-block;
-			    font-size: 18px;
-			    vertical-align: top;
-			    margin-left: 10px;
-			}
-			.main_row .head_all {
-				margin: 10px 0 20px 0;
-			}
-			.main_row p {
-				margin-bottom: 8px;
-			}
-		</style>
-		<form method="post">
-			<!-- <input type="hidden" name="action" value="Zotero_search_call"> -->
-			<div class="main zs_shortcode_form ">
-				<?php 
-				$mytables = $wpdb->get_results("SELECT * FROM $table_tbl");
-				foreach ($mytables as $mytable) {   
-				    $table = $mytable->table_name; 
-				    $table_name = $table; 
-				    $table_name = str_replace($tbl_prefix, '', $table_name);
-				    $table_slug = $table_name;
 
-				    $table_name = str_replace('_', ' ', $table_name);
-				    $table_name = ucfirst($table_name);
+		public function form_control_table_callable(){ 
 
-				    ?>
-				    <div class="main_row">
-						<strong><?php echo $table_name; ?></strong>
-						<label class="head_all"> <input class="check_all" type="checkbox" data-name="<?php echo $table_slug; ?>" name="<?php echo $table_slug; ?>_all" value="all"> All </label>
-					    <?php $table_data = $wpdb->get_results("SELECT * FROM $table", ARRAY_N );
-						if($table_data){
-							foreach($table_data as $t){
-								$name = $t[1];
-								$slug = $name;
-								$slug = strtolower($slug);
-								$slug = trim($slug);
-								// $slug = str_replace(' ', '-', $name);
+			global $wpdb ,$wp;
 
-							 ?> <p><label class="<?php echo $table_slug; ?>">
-									<input type="checkbox" name="<?php echo $table_slug; ?>[]" value="<?php echo $slug; ?>"> 
-									<?php echo $name; ?></label>
-								</p>
-							<?php }
-						} ?>
+			$wp_prefix    = $wpdb->prefix;
+			$tbl_prefix   = $wp_prefix . ZS_PREFIX;
+			$table_tbl    = $tbl_prefix . "tables";
+			$itemmeta_tbl = $tbl_prefix . "itemmeta";
+
+			$custom_route_slug = Zotero_search::get_custom_route_slug();
+			$curators = false;
+			$url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+			if(strpos($url_path, $custom_route_slug ) !== false){ $curators = true; }
+
+			$tbl_SQL = "SELECT * FROM $table_tbl WHERE table_name != 'master' AND table_name != 'curators'";
+			if($curators) {
+				$tbl_SQL = "SELECT * FROM $table_tbl WHERE table_name != 'master'";
+			}
+
+			$mytables = $wpdb->get_results( $tbl_SQL );
+			if(!empty($mytables)){ ?>
+				<form method="post" class="zs_item_frm">
+					<div class="parent-div" >
+						<div class="main zs_shortcode_form ">
+							<?php if ($curators) { echo "<h2>Curators</h2>"; } ?>
+							<div class="list-head">
+								<input type="hidden" name="action" value="zs_search_items" >
+								<input type="hidden" name="all_checked" id="all_checked" value="" >
+								<input type="text" name="keyword" placeholder="Enter keyword here.." style="width: 30%;display: none;">
+								<input type="submit" name="" value="<?php echo apply_filters('zs_search_txt' , 'Search' ); ?>">
+								<a href="javascript:;" id="reset-frm" >Clear Selection</a>
+								<?php $zs_zotero_total_items = get_option('zs_zotero_total_items');
+								if ($zs_zotero_total_items) { ?>
+									<span> Total Records: <?php echo $zs_zotero_total_items; ?> Items</span>
+								<?php } ?>
+							</div>
+							<div class="ajax-response" ></div>
+								<?php 
+								if($curators){
+									$dh = 73;
+									if(count($mytables) > 2){
+										$dh = $dh + ((count($mytables) - 2) * 15);
+									}  ?>
+									<div class="selected_labels" style="height:<?php echo $dh; ?>px" >
+										<div class="">
+											<input type="button" name="" value="Copy" id="copy_tagline" >
+										</div>
+										<div id="taglines" >
+											<?php 
+											if(!empty($mytables)){
+												foreach($mytables as $mytable){
+													$table_name = ucfirst($mytable->table_name);
+													if(isset($_POST[$mytable->id]) && !empty($_POST[$mytable->id])){
+														$sub = $_POST[$mytable->id];
+														$main_label = $wpdb->get_var("SELECT table_name FROM $table_tbl WHERE ID = $mytable->id");
+														$main_label_name = $tbl_prefix . $main_label;
+														$labels = '';
+														foreach($sub as $s){
+															$label  = $wpdb->get_row("SELECT * FROM $main_label_name WHERE ID = $s",ARRAY_N);
+															$_label  = trim($label[1]) . ' | ';
+															$labels .= $_label;
+														}
+														$labels = rtrim($labels,'| ');
+														echo "<label class=' $table_name'><b>$table_name = </b><span>$labels</span> </label>";
+													}else{
+														echo "<label class='hide $table_name'><b>$table_name = </b></label>";
+													}
+
+												}
+											} ?>
+										</div>
+									</div>
+									<div class="refill_frm">
+										<textarea class="refill_textarea" placeholder="Paste your previously generated notes here…" ></textarea>
+										<input type="button" name="" value="Refill Form" id="refill_btn"  >
+									</div>
+								<?php } ?>
+							<div class="main_row_content">
+								<?php $meta_keys = $wpdb->get_col("SELECT DISTINCT(meta_key) FROM $itemmeta_tbl");
+								// $meta_values = $wpdb->get_col("SELECT DISTINCT(meta_value) FROM $itemmeta_tbl");
+								foreach ($mytables as $mytable) {   
+								    $table_name 	= $mytable->table_name;
+								    $table_tbl_name = $tbl_prefix . $table_name;
+								    $table_slug 	= $table_name;
+								    $table_slug_id  = $mytable->id;
+
+								    $table_name = str_replace('_', ' ', $table_name);
+								    $table_name = ucfirst($table_name);
+
+								    $checkedAll = '';
+								    if(isset($_POST[$table_slug_id.'_all'])){
+								    	$checkedAll = 'checked';
+								    }
+								    $meta_values = [];
+								    $meta_values = $wpdb->get_col("SELECT DISTINCT(meta_value) FROM $itemmeta_tbl WHERE meta_key = $table_slug_id"); 
+								   	$all_disabled = !empty($meta_values) ? '' : 'disabled';
+
+								    ?>
+								    <div class="main_row <?php echo strtolower($table_name); ?>">
+										<strong><?php echo $table_name; ?></strong>
+										<label class="head_all <?php //echo $all_disabled; ?>"> 
+											<input 
+												type="checkbox" class="check_all" value="all" 
+												name="<?php echo $table_slug_id; ?>_all" 
+												data-name="<?php echo $table_slug_id; ?>"  
+												data-label="<?php echo $table_name; ?>"  
+												<?php echo $checkedAll; ?>
+												<?php //echo $all_disabled; ?>
+											> All 
+										</label>
+									    <?php $table_data = $wpdb->get_results("SELECT * FROM $table_tbl_name", ARRAY_N );
+										if($table_data){ $checkboxs = [];
+											foreach($table_data as $t){
+												$name = $t[1];
+												$slug = $name;
+												$slug = strtolower($slug);
+												$slug = trim($slug);
+												$slug_id = $t[0];
+												$note = end($t);
+
+												// $slug = str_replace(' ', '-', $name);
+
+												$checked = '0';
+												if($checkedAll){
+													$checked = '1';
+												}else{
+													if(isset($_POST[$table_slug_id]) && in_array($slug_id, $_POST[$table_slug_id])){
+												    	$checked = '1';
+												    }
+												}
+
+
+												/*$disabled = '0';
+												if(!in_array($table_slug_id, $meta_keys) || !in_array($slug_id, $meta_values)){
+													$checked = '0';
+													$disabled = '1';
+												}
+												$checkboxs[]    = [
+													'label'    => $name,
+													'name'     => $table_slug_id,
+													'value'    => $slug_id,
+													'disabled' => $disabled,
+													'checked'  => $checked,
+												];*/
+
+											
+											 ?> <p><label data-label="<?php echo $table_slug; ?>" title='<?php echo $note; ?>' class="<?php echo !empty($note)?'zs-tt-info':''; ?>" >
+													<input 
+														type="checkbox" 
+														name="<?php echo $table_slug_id; ?>[]" 
+														value="<?php echo $slug_id; ?>"
+														data-label="<?php echo $name; ?>"
+														<?php //echo $disabled; ?>  
+														<?php echo $checked ? 'checked' : '' ; ?>
+													> <?php 
+														echo $name; ?>
+												</label></p>
+											<?php }
+
+											//Sort by disabled at last
+											/*$this->array_sort_by_column($checkboxs, 'disabled');
+
+											foreach($checkboxs as $checkbox){ ?>
+												<p><label class=" <?php echo $checkbox['disabled'] ? 'disabled' : '' ; ?> " >
+													<input 
+														type="checkbox" 
+														name="<?php echo $checkbox['name']; ?>[]" 
+														value="<?php echo $checkbox['value']; ?>"
+														data-label="<?php echo $checkbox['label']; ?>"
+														<?php echo $checkbox['disabled'] ? 'disabled' : '' ; ?>  
+														<?php echo $checkbox['checked'] ? 'checked' : '' ; ?>  
+													> <?php echo $checkbox['label']; ?></label>
+												</p>
+											<?php }*/
+											
+										} ?>
+									</div>
+								<?php } ?>
+							</div>
+							<div class="list-footer">
+								<input type="submit" name="" value="Search">
+                                <div class="ajax-response" ></div>
+							</div>
 						</div>
-				<?php } ?>
 
-			</div>
-			<input type="submit" name="" value="Search">
-		</form>
-		<script type="text/javascript">
-			jQuery('.zs_shortcode_form input[type="checkbox"]').change(function(){
-				$this = jQuery(this);
-				if($this.hasClass('check_all')){
-					name = jQuery(this).data('name')
-					jQuery('input[name^="'+name+'"]').prop("checked" , this.checked);
-				}else{
-					name = jQuery(this).attr('name');
-					if(jQuery('input[name^="'+name+'"]:checked').length == jQuery('input[name^="'+name+'"]').length){
-						name_new = name.slice(0,-2);
-						jQuery('input[name^="'+name_new+'_all"]').prop("checked" , true);	
-					}else{
-						name_new = name.slice(0,-2);
-						jQuery('input[name^="'+name_new+'_all"]').prop("checked" , false);	
+					</div>
+				</form>
+
+			<?php }else{ ?>
+				<div class="notice notice-warning is-dismissible">
+					<p><?php _e('Please import master file to render search form.', $this->plugin_name) ?></p>
+				</div>
+			<?php } 
+		
+		}
+
+		public function zs_generate_zotero_url_callback(){
+			$items_id = $_POST['items_id'];
+			$AjaxResponse = [
+				'status' => 'error',
+				'message' => 'Something went wrong',
+			];
+			$pass = 'false';
+			$token_prefix = 'temp_id_';
+			$TOKEN = $token_prefix . time();
+			$UpdateItems = $failed = [];
+			$Yesterday  = date('Ymd', strtotime('yesterday'));
+
+			$ZOTEROAPIKEY = get_option(ZS_PREFIX.'api_key');
+			$ZOTEROUSERID = get_option(ZS_PREFIX.'user_id');
+
+			if(!empty($items_id)){
+				$items = explode(',', $items_id);
+				$items = array_chunk($items, 50);
+				foreach($items as $item){
+					$SearchItem = implode(',',$item);
+					$url = "https://api.zotero.org/groups/$ZOTEROUSERID/items/?itemKey=$SearchItem";
+					$AjaxResponse['geturl'][] = $url;
+					$response = wp_remote_get($url);
+					if($response['response']['code'] == 200){
+						$body = json_decode($response['body'], true);
+						if(!empty($body)){ $i = 0;
+							foreach($body as $itemData){ 
+								
+								$new_tags = [];
+								$key 	  = $itemData['key'];
+								$version  = $itemData['version'];
+								$tags 	  = $itemData['data']['tags'];
+								if(!empty($tags)){
+									foreach($tags as $tag){
+
+										$t_tag = $tag['tag'];
+										$tag_ts = str_replace($token_prefix, '', $tag['tag']) ;
+										$tday = date('Ymd', $tag_ts);
+										if(is_numeric($tag_ts)){
+											if( $tday >= $Yesterday){
+												$new_tags[] = [ 'tag' => $t_tag ];
+											}
+										}else $new_tags[] = [ 'tag' => $t_tag ];
+									}
+								}
+								$new_tags[] = [ 'tag' => $TOKEN ];
+								
+								$UpdateItems[] = [
+									'key' 	   => $key,
+									'tags' 	   => $new_tags,
+									'version'  => $version,
+								];
+
+								
+							}
+						}
 					}
 				}
-			});
-		</script>
-	<?php }
+
+				$AjaxResponse['UpdateItems'] = $UpdateItems;
+
+				//Update multiple ITEMS
+				$SplitUpdateItems = array_chunk($UpdateItems, 50);
+				$AjaxResponse['SplitUpdateItems'][] = $SplitUpdateItems;
+				$headers = [ 'Zotero-API-Key' => $ZOTEROAPIKEY, 'Content-Type' => 'application/json' ];
+				// foreach($SplitUpdateItems as $SplitUpdateItem){
+					foreach($SplitUpdateItems as $UpdateItemsData){
+						$data = [];
+						$UpdateItemsRAW = wp_json_encode( $UpdateItemsData );
+						// $UpdateItemsRAW = json_encode( $UpdateItemsData );
+						
+
+						$Updateargs = [
+							'headers' => $headers,
+							'body'	  => $UpdateItemsRAW,
+						];
+						$Updateurl = "https://api.zotero.org/groups/$ZOTEROUSERID/items";
+						$update_response = wp_remote_post($Updateurl, $Updateargs);
+
+						$data['status'] = 'failed';
+						if($update_response['response']['code'] == 200){
+						$data['status'] = 'pass';
+							$pass = 'true';
+						}else{
+							$AjaxResponse['data'] = $update_response;
+							$AjaxResponse['message'] = 'Update error occurred';
+						}
+						$data['headers'] = $headers;
+						$data['request_raw'] = $UpdateItemsRAW;
+						$data['request'] = $UpdateItemsData;
+						$data['data'] = $update_response;
+						$data['api_response'] = $api_response;
+						$AjaxResponse['data'][] = $data;
+					}
+				// }
+			}
 
 
-}
+			$AjaxResponse['failed']  = $failed;
+				
+			if($pass == 'true'){
+				$redirect = "https://www.zotero.org/groups/$ZOTEROUSERID/tags/$TOKEN";
+				$AjaxResponse['status']   = 'success';
+				$AjaxResponse['message']  = 'Opening a new window ...';
+				$AjaxResponse['redirect'] = $redirect;
+			}
+		
+			echo json_encode($AjaxResponse);
+			wp_die();
+		}
+
+	}

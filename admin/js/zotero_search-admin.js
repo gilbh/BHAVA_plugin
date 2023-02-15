@@ -47,9 +47,9 @@
 		        console.log(response);
 		    	response = JSON.parse(response);
 		        if(response.status == 'success'){
-		    		jQuery('#wpbody-content').prepend('<div class="wp-notice" ><div class="notice notice-success"><p>'+response.message+'</p></div></div>');
+		    		jQuery('#wpbody-content .wrap').prepend('<div class="wp-notice" ><div class="notice notice-success"><p>'+response.message+'</p></div></div>');
 		        }else{
-		    		jQuery('#wpbody-content').prepend('<div class="wp-notice" ><div class="error"><p>'+response.message+'</p></div></div>');
+		    		jQuery('#wpbody-content .wrap').prepend('<div class="wp-notice" ><div class="error"><p>'+response.message+'</p></div></div>');
 		        }
 		    },
 		    error: function(error){

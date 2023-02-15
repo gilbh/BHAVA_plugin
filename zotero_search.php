@@ -8,17 +8,17 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              authortesting.com
+ * @link              https://www.itpathsolutions.com/
  * @since             1.0.0
  * @package           Zotero_search
  *
  * @wordpress-plugin
  * Plugin Name:       Zotero Search
- * Plugin URI:        zoterosearchtesting.com
+ * Plugin URI:        https://www.itpathsolutions.com/
  * Description:       This is a Zotero Search plugin.
  * Version:           1.0.0
- * Author:            Test Author
- * Author URI:        authortesting.com
+ * Author:            IT Path Solutions
+ * Author URI:        https://www.itpathsolutions.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       zotero_search

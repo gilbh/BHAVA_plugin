@@ -2,3 +2,23 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
+
+.subtable-main {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.subsubsub{
+	margin: 8px 0px 15px;
+}
+ .id-col{
+ 	width: 20px;
+ }
+ .action-col{
+ 	width: 100px;
+ }
+
+.toplevel_page_zotero_search-admin li.wp-first-item{
+    display: none;
+}

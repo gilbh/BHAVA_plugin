@@ -19,7 +19,7 @@
  *
  * @package    Zotero_search
  * @subpackage Zotero_search/includes
- * @author     Test Author <author@testing.com>
+ * @author     Shebaz Multani <shebazm@itpathsolutions.com>
  */
 class Zotero_search_Loader {
 

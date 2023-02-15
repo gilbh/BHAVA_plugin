@@ -18,7 +18,7 @@
  * @since      1.0.0
  * @package    Zotero_search
  * @subpackage Zotero_search/includes
- * @author     Test Author <author@testing.com>
+ * @author     Shebaz Multani <shebazm@itpathsolutions.com>
  */
 class Zotero_search_Activator {
 
@@ -38,49 +38,20 @@ class Zotero_search_Activator {
 		$tbl_prefix = $wp_prefix . ZS_PREFIX;
 		$charset_collate = $wpdb->get_charset_collate();
 
-/*		$master_type_tbl = $tbl_prefix . "master_type";
-		$master_tbl = $tbl_prefix . "master";
-
-		$sql = "CREATE TABLE $master_type_tbl (
-		  id mediumint(9) NOT NULL AUTO_INCREMENT,
-		  name tinytext NOT NULL,
-		  slug tinytext NOT NULL,
-		  time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-		  PRIMARY KEY  (id)
-		) $charset_collate;";
-
-		dbDelta( $sql );
-		
-		$sql = "CREATE TABLE $master_tbl (
-		  id mediumint(9) NOT NULL AUTO_INCREMENT,
-		  type_id mediumint(9) NOT NULL,
-		  name tinytext NOT NULL,
-		  slug tinytext NOT NULL,
-		  time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-		  PRIMARY KEY  (id)
-		) $charset_collate;";
-
-		dbDelta( $sql );
-*/
-		$items_tbl = $tbl_prefix . "items";
 		$itemmeta_tbl = $tbl_prefix . "itemmeta";
 		$table_tbl = $tbl_prefix . "tables";
-		$sql = "CREATE TABLE $items_tbl (
-		  id mediumint(9) NOT NULL AUTO_INCREMENT,
-		  item tinytext NOT NULL,
-		  item_name tinytext NOT NULL,
-		  datetime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  PRIMARY KEY  (id)
-		) $charset_collate; ";
-
-		dbDelta( $sql );
-
+		$periods = "periods";
+		$periods_tbl = $tbl_prefix . $periods;
+		
 		$sql = "CREATE TABLE $itemmeta_tbl (
 		  id mediumint(9) NOT NULL AUTO_INCREMENT,
 		  item_id tinytext NOT NULL,
-		  meta_key tinytext NULL,
-		  meta_value longtext NULL,
-		  PRIMARY KEY  (id)
+		  meta_key mediumint(9) NULL,
+		  meta_value mediumint(9) NULL,
+		  PRIMARY KEY (id),
+		  KEY item_id (item_id(63)),
+		  KEY meta_key (meta_key),
+		  KEY meta_value (meta_value)
 		) $charset_collate; ";
 
 		dbDelta( $sql );
@@ -88,10 +59,28 @@ class Zotero_search_Activator {
 		$sql = "CREATE TABLE $table_tbl (
 		  id mediumint(9) NOT NULL AUTO_INCREMENT,
 		  table_name tinytext NOT NULL,
-		  PRIMARY KEY  (id)
+		  PRIMARY KEY (id)
 		) $charset_collate; ";
 
 		dbDelta( $sql );
+
+		$wpdb->query( "DROP TABLE IF EXISTS $periods_tbl" );
+		$sql = "CREATE TABLE $periods_tbl (
+		  id mediumint(9) NOT NULL AUTO_INCREMENT,
+		  $periods tinytext NOT NULL,
+		  note tinytext NULL, 
+		  PRIMARY KEY (id)
+		) $charset_collate; ";
+
+		dbDelta( $sql );
+		$wpdb->query("INSERT INTO $periods_tbl ($periods) VALUES ('< 6'),('6'),('7'),('8'),('9'),('10'),('11'),('12'),('13'),('14'),('15'),('16'),('17'),('18'),('19'),('20'),('21');");
+
+
+		//Add daily cron job
+		if (! wp_next_scheduled ( 'zs_daily_scheduled_sync_zotero_data' )) {
+			wp_schedule_event( time(), 'daily', 'zs_daily_scheduled_sync_zotero_data' );
+		}
+
 
 
 	}

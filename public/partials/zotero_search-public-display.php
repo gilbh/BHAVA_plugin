@@ -5,7 +5,7 @@
  *
  * This file is used to markup the public-facing aspects of the plugin.
  *
- * @link       authortesting.com
+ * @link       shebazm@itpathsolutions.com
  * @since      1.0.0
  *
  * @package    Zotero_search

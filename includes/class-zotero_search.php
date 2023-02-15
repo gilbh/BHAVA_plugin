@@ -25,7 +25,7 @@
  * @since      1.0.0
  * @package    Zotero_search
  * @subpackage Zotero_search/includes
- * @author     Test Author <author@testing.com>
+ * @author     Shebaz Multani <shebazm@itpathsolutions.com>
  */
 class Zotero_search {
 
@@ -57,6 +57,9 @@ class Zotero_search {
 	 */
 	protected $version;
 
+	public static $custom_route_slug;
+	protected $shortcode_name;
+
 	/**
 	 * Define the core functionality of the plugin.
 	 *
@@ -73,6 +76,9 @@ class Zotero_search {
 			$this->version = '1.0.0';
 		}
 		$this->plugin_name = 'zotero_search';
+
+		self::$custom_route_slug = 'curators';
+		$this->shortcode_name = 'form_control_table';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -160,6 +166,11 @@ class Zotero_search {
 		$this->loader->add_action( 'admin_post_zotero_import_master', $plugin_admin, 'zotero_import_master_handler');
 		$this->loader->add_action( 'admin_notices', $plugin_admin, 'admin_notices' );
 		$this->loader->add_action( 'wp_ajax_import_zotero_data', $plugin_admin, 'import_zotero_data_handler');
+		$this->loader->add_action( 'admin_post_zotero_update_settings', $plugin_admin, 'zotero_update_settings_handler');
+		$this->loader->add_action( 'zs_daily_scheduled_sync_zotero_data', $plugin_admin, 'import_zotero_data_handler');
+		$this->loader->add_action( 'admin_post_zotero_error_handling', $plugin_admin, 'zotero_error_handling_handler');
+		
+		$this->loader->add_action( 'init', $this, 'zs_init_actions');
 
 
 	}
@@ -177,11 +188,51 @@ class Zotero_search {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-		$this->loader->add_action( 'init', $plugin_public, 'register_shortcodes' );
+		
+		$this->loader->add_action( 'wp_ajax_zs_search_items', $plugin_public, 'search_items_callback' );
+		$this->loader->add_action( 'wp_ajax_nopriv_zs_search_items', $plugin_public, 'search_items_callback' );
+		
+		$this->loader->add_action( 'wp_ajax_zs_generate_zotero_url', $plugin_public, 'zs_generate_zotero_url_callback' );
+		$this->loader->add_action( 'wp_ajax_nopriv_zs_generate_zotero_url', $plugin_public, 'zs_generate_zotero_url_callback' );
+	
 
 
 	}
+	public function zs_init_actions(){
 
+		/*Start Session*/
+		if(!session_id()) session_start();
+
+		$shortcode_name = $this->get_shortcode_name();
+		$custom_route_slug = $this->get_custom_route_slug();
+
+		$plugin_public = new Zotero_search_Public( $this->get_plugin_name(), $this->get_version() );
+		/*Register shortcode*/
+		add_shortcode($shortcode_name , array( $plugin_public, 'form_control_table_callable') );
+
+
+		/*Add curators route*/
+		global $wpdb;
+	    $post_tbl = $wpdb->prefix . "posts";
+	    //Get all pages slug with [form_control_table] shortcode
+	    $pages = $wpdb->get_results( "SELECT post_name,post_parent FROM $post_tbl WHERE post_content LIKE '%[$shortcode_name]%' AND post_type = 'page' AND post_status = 'publish' " );
+	    if(!empty($pages)){
+	    	foreach($pages as $page){
+	    		$page_slug = $page->post_name;
+	    		$page_parent = $page->post_parent;
+	    		if($page_parent > 0){
+	    			$parent_page_slug = $wpdb->get_var( "SELECT post_name FROM $post_tbl WHERE ID = $page_parent; " );
+	    			$page_slug = "$parent_page_slug/$page_slug";
+	    		}
+	    		//Add curators route with that page
+		   		add_rewrite_rule( $page_slug . '/('.$custom_route_slug.')/?$', 'index.php?pagename='.$page_slug.'&'.$custom_route_slug.'=$matches[1]', 'top' );
+	    	}
+	    }
+	    //Save permalinks
+	    flush_rewrite_rules();
+
+	}
+	
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.
 	 *
@@ -220,6 +271,14 @@ class Zotero_search {
 	 */
 	public function get_version() {
 		return $this->version;
+	}
+
+	public static function get_custom_route_slug() {
+		return self::$custom_route_slug;
+	}
+
+	public function get_shortcode_name() {
+		return $this->shortcode_name;
 	}
 
 }

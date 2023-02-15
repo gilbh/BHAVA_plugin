@@ -31,6 +31,22 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 
 global $wpdb;
-$tbl_prefix = $wpdb->prefix . 'zs_';
-$wpdb->query( "DROP TABLE IF EXISTS ".$tbl_prefix."master_type" );
-$wpdb->query( "DROP TABLE IF EXISTS ".$tbl_prefix."master" );
+$ZS_PREFIX = 'zs_';
+$tbl_prefix = $wpdb->prefix . $ZS_PREFIX;
+$itemmeta_tbl = $tbl_prefix . "itemmeta";
+$table_tbl = $tbl_prefix . "tables";
+
+$wpdb->query( "DROP TABLE IF EXISTS ".$itemmeta_tbl );
+$mytables = $wpdb->get_results("SELECT * FROM $table_tbl");
+if($mytables){
+	foreach ($mytables as $mytable) {
+		$table = $mytable->table_name; 
+		$wpdb->query( "DROP TABLE IF EXISTS ".$tbl_prefix.$table );
+	}
+}
+$wpdb->query( "DROP TABLE IF EXISTS ".$table_tbl );
+
+
+delete_option($ZS_PREFIX.'api_key');
+delete_option($ZS_PREFIX.'user_id');
+delete_option($ZS_PREFIX.'api_url');

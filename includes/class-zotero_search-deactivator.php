@@ -18,7 +18,7 @@
  * @since      1.0.0
  * @package    Zotero_search
  * @subpackage Zotero_search/includes
- * @author     Test Author <author@testing.com>
+ * @author     Shebaz Multani <shebazm@itpathsolutions.com>
  */
 class Zotero_search_Deactivator {
 
@@ -30,6 +30,9 @@ class Zotero_search_Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
+
+		//Add remove cron job
+		wp_clear_scheduled_hook( 'zs_daily_scheduled_sync_zotero_data' );
 
 	}
 
