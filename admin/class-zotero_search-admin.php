@@ -18,7 +18,7 @@
  *
  * @package    Zotero_search
  * @subpackage Zotero_search/admin
- * @author     Shebaz Multani <shebazm@itpathsolutions.com>
+ * @author     Shebaz Multani <shebazm@itpathsolutions.co.in>
  */
 class Zotero_search_Admin {
 
@@ -603,6 +603,9 @@ class Zotero_search_Admin {
         			}
 
         		} fclose($handle);
+
+				//Count total records identified
+        		$response['records_identified'] = count($AllTI);
 
         		$wp_prefix = $wpdb->prefix;
 				$tbl_prefix = $wp_prefix . ZS_PREFIX;

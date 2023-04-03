@@ -40,7 +40,11 @@
 	<?php }if(isset($_SESSION['response']) && !empty($_SESSION['response'])){
 		$responce = $_SESSION['response'];
 		unset($_SESSION['response']);
-		$filename = "Filename: <b>$responce[filename]</b><br><br>";
+		$records_identified_msg = '';
+		if ( isset( $responce[ 'records_identified' ] ) ) {
+			$records_identified_msg = 'Records identified: <b>' . $responce[ 'records_identified' ] . '</b>';
+		}
+		$filename = "Filename: <b>$responce[filename]</b> <br> $records_identified_msg <br><br>";
 		if($responce['status'] == 'success' ){
 			echo "<div class='notice notice-success'><p> $filename $responce[message]</p></div>";
 		}else{
