@@ -49,11 +49,12 @@
 		if($this.hasClass('check_all')){
 			var name = $(this).data('name')
 			$('input[name^="'+name+'"]:not(:disabled)').prop("checked" , this.checked);
-
 			if (this.checked){
+				$('input[name^="'+name+'"]:not(:disabled)').parent().addClass("checked");
 				all_checked_val = all_checked_val.replace(this.dataset.name + ",", "");
 				all_checked_val = all_checked_val + this.dataset.name + "," ;
 			}else{
+				$('input[name^="'+name+'"]:not(:disabled)').parent().removeClass("checked");
 				all_checked_val = all_checked_val.replace(this.dataset.name + ",", "");
 			}
 		}
@@ -62,11 +63,13 @@
 		var current_checked_all = $(this).parents('.main_row').find('input[type="checkbox"]:checked:not(.check_all)').length;
 		if(current_all == current_checked_all){
 			$(this).parents('.main_row').find('.check_all').prop("checked" , true);
+			$(this).parents('.main_row').find('.check_all').parent().addClass("checked");
 			tempVal = $(this).parents('.main_row').find('.check_all').data('name');
 			all_checked_val = all_checked_val.replace(tempVal + ",", "");
 			all_checked_val = all_checked_val + tempVal + "," ;				
 		}else{ 
 			$(this).parents('.main_row').find('.check_all').prop("checked" , false);
+			$(this).parents('.main_row').find('.check_all').parent().removeClass("checked");
 			tempVal = $(this).parents('.main_row').find('.check_all').data('name');
 			all_checked_val = all_checked_val.replace(tempVal + ",", "");
 		}
@@ -99,6 +102,11 @@
 		var zs_shortcode_form = $('.zs_shortcode_form');
 		allCheckBox.attr('readonly', true);
 		allCheckBoxLabel.addClass('readonly');
+		if(this.checked){
+			$(this).parent('label').addClass('checked');
+		}else{
+			$(this).parent('label').removeClass('checked');
+		}
 		zs_shortcode_form.css('cursor', 'wait');
 		
 		if(counting){
@@ -389,5 +397,31 @@
 	  
 	}
 
+	// Dev 01-05-23
+	$(document).on('click',".zs_item_frm .style_list_button .change_style_btn",function(){
+			var design_val = $(this).prop('name');
+			$('.zs_item_frm .style_list_button .change_style_btn').removeClass('active_style');
+			if(design_val == 'menu_style'){
+				$(this).parents().find('.main_row_content').addClass('menu_style_active');
+				$(this).parents().find('.zotero_category_list').fadeIn('slow');
+				$('.zs_shortcode_form .zotero_category_list input:first-child').click();
+			}else{
+				$(this).parents().find('.zotero_category_list').hide();
+				$(this).parents().find('.main_row_content').removeClass('menu_style_active');
+			}
+			$(this).addClass('active_style');
+	});
+	$(document).on('click','.zotero_category_list input', function(){
+		var target = $(this).val();
+		$('.zotero_category_list input').removeClass('active');
+		$(this).addClass('active');
+		$("#"+target).addClass('active').siblings(".main_row").removeClass('active');
+		$("#"+target).children('.row_vlaue_parent').show();
+		return false;
+  	});
+  	jQuery(document).on('click','.version_2 .main_row_content .main_row strong',function(){
+		jQuery(this).parent().siblings().slideToggle('fast');
+		jQuery(this).toggleClass('close');
+	});
 
 })( jQuery );

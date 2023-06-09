@@ -36,12 +36,17 @@
 	font-size: 16px;
 	line-height: 1.5;
    	position: relative;
-	width: fit-content;
+	width: fit-content;	
+	margin-left: 20px;
+}
+.zs_shortcode_form .main_row_content.menu_style_active .main_row .head_all{
+	margin-left: 0px;
 }
 .zs_shortcode_form .main_row p {
 	margin-bottom: 5px;
     line-height: 1;
     width: 87%;
+	margin-left: 20px;
 }
 .zs_shortcode_form .main_row p label{
 	font-size: 14px !important;
@@ -53,7 +58,7 @@
     font-weight: normal;
 }
 .zs_shortcode_form .main_row strong {
-    margin-left: -20px;
+/*     margin-left: -20px; */
     margin-right: 5px;
 }
 .zs_shortcode_form .main_row input[type="checkbox"] {
@@ -118,3 +123,96 @@ i {
     margin: 10px 0 !important;
     background-color: #eee !important;
 }
+
+/* Dev 01-05-23  */
+
+.zs_item_frm .zs_shortcode_form .zotero_category_list input{
+    padding: 1rem;
+	text-transform: capitalize;
+}
+.zs_shortcode_form .menu_style_active .main_row strong, .zotero_category_list{
+        display: none;
+}
+
+.main.zs_shortcode_form .list-footer, .main.zs_shortcode_form .style_list_button{
+    margin: 10px 0;
+}
+.zs_shortcode_form .change_style_btn.active_style, .zs_item_frm .zs_shortcode_form .zotero_category_list input.active{
+        background-color: #fcbd30;
+}
+.zs_shortcode_form .menu_style_active .main_row.active{
+    display: inline-block;
+}
+.zs_shortcode_form .menu_style_active .main_row.active .row_vlaue_parent{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.zs_shortcode_form .menu_style_active .main_row p {
+    width: 16.66%;
+    margin: 0 0 15px;
+}
+
+.zs_shortcode_form .menu_style_active .main_row {
+     width: 100%;
+     display: none;
+}
+.zs_shortcode_form .menu_style_active .main_row .row_vlaue_parent{
+    width: 100%;
+    background: #d9d9d9;
+    display: none;
+    padding: 15px 15px;
+}
+
+.zs_shortcode_form .menu_style_active .main_row .head_all {
+    width: 100%;
+}
+
+.zs_shortcode_form .menu_style_active .main_row label {
+    background: #fff;
+    display: inline-block;
+    width: calc( 100% - 15px ) !important;
+    padding: 12px 15px;
+    cursor: pointer;
+}
+
+.zs_shortcode_form .menu_style_active .main_row label.checked {
+    background: #324856;
+    color: #fff;
+}
+
+.zs_shortcode_form .menu_style_active .main_row input {
+    display: none;
+}
+
+/* Dev 01-05-23  */
+
+/* Dev 11-05-23  */
+.main_row_content .main_row .row_title_parent strong i{
+    display: none;
+}
+.version_2 .main_row_content .main_row .row_title_parent strong i {
+    font-style: normal !important;
+    margin-left: 13px;
+    display: inline-block;
+	transform: rotate(180deg);
+}
+.version_2 .main_row_content .main_row .row_title_parent strong.close i{
+	transform: rotate(0deg);
+}
+
+.version_2 .main_row_content .main_row .row_title_parent strong {
+    border-bottom: 1px solid #000;
+    padding-bottom: 6px;
+}
+
+/* Dev 11-05-23  */
+
+/* Dev 16-05-23 */
+
+.zotero_category_list .row_title_parent { display: inline-block;}
+.zotero_category_list .row_title_parent input[type="button"] { background: transparent; color: #000; font-weight: bold; font-size: 16px !important; font-family: "Source Sans Pro"; letter-spacing: 1px; }
+.zotero_category_list .row_title_parent i{ font-style: normal !important; margin-left: 13px; display: inline-block; }
+.zs_item_frm .zs_shortcode_form .zotero_category_list .row_title_parent input.active { background-color: #d9d9d9; }
+
+/* Dev 16-05-23 */

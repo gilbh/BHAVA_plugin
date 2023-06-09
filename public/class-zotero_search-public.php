@@ -3,7 +3,7 @@
 	/**
 	 * The public-facing functionality of the plugin.
 	 *
-	 * @link       shebazm@itpathsolutions.com
+	 * @link       shebazm@itpathsolutions.co.in
 	 * @since      1.0.0
 	 *
 	 * @package    Zotero_search
@@ -18,7 +18,7 @@
 	 *
 	 * @package    Zotero_search
 	 * @subpackage Zotero_search/public
-	 * @author     Shebaz Multani <shebazm@itpathsolutions.com>
+	 * @author     Shebaz Multani <shebazm@itpathsolutions.co.in>
 	 */
 
 	class Zotero_search_Public {
@@ -287,7 +287,7 @@
 
 		}
 
-		public function form_control_table_callable(){ 
+		public function form_control_table_callable($sz_sc_attr){ 
 
 			global $wpdb ,$wp;
 
@@ -305,10 +305,10 @@
 			if($curators) {
 				$tbl_SQL = "SELECT * FROM $table_tbl WHERE table_name != 'master'";
 			}
-
 			$mytables = $wpdb->get_results( $tbl_SQL );
-			if(!empty($mytables)){ ?>
-				<form method="post" class="zs_item_frm">
+			$version_class = '';
+			if(!empty($mytables)){  if(isset($sz_sc_attr['version']) && ( $sz_sc_attr['version'] == "v2" || $sz_sc_attr['version']== "v3" )){ $version_class = 'version_2';  } ?>
+				<form method="post" class="zs_item_frm <?php echo $version_class; ?>">
 					<div class="parent-div" >
 						<div class="main zs_shortcode_form ">
 							<?php if ($curators) { echo "<h2>Curators</h2>"; } ?>
@@ -363,10 +363,33 @@
 										<textarea class="refill_textarea" placeholder="Paste your previously generated notes here…" ></textarea>
 										<input type="button" name="" value="Refill Form" id="refill_btn"  >
 									</div>
+								<?php } 
+									$meta_keys = $wpdb->get_col("SELECT DISTINCT(meta_key) FROM $itemmeta_tbl");
+								?>
+								<?php if(isset($sz_sc_attr['version']) && ( $sz_sc_attr['version']== "v2" || $sz_sc_attr['version']== "v3" ) ){ ?>
+								<div class="style_list_button">
+									<input type="button" name="list_style" class="change_style_btn active_style" value="List View">
+									<input type="button" name="menu_style" class="change_style_btn" value="Menu View">
+								</div>
+								<div class="zotero_category_list">
+									<?php 
+									// $meta_values = $wpdb->get_col("SELECT DISTINCT(meta_value) FROM $itemmeta_tbl");
+									foreach ($mytables as $mytable) {
+								    	$table_name 	= $mytable->table_name;
+										if($sz_sc_attr['version']== "v3"){
+									?>
+											<div class="row_title_parent" bis_skin_checked="1">
+												<input type="button" name="" value="<?php echo strtolower($table_name); ?>">
+											</div>
+										<?php }else{ ?>
+												<input type="button" name="" value="<?php echo strtolower($table_name); ?>">
+									<?php 	} 
+									} ?>
+								</div>
 								<?php } ?>
-							<div class="main_row_content">
-								<?php $meta_keys = $wpdb->get_col("SELECT DISTINCT(meta_key) FROM $itemmeta_tbl");
-								// $meta_values = $wpdb->get_col("SELECT DISTINCT(meta_value) FROM $itemmeta_tbl");
+
+							<div class="main_row_content">	
+								<?php
 								foreach ($mytables as $mytable) {   
 								    $table_name 	= $mytable->table_name;
 								    $table_tbl_name = $tbl_prefix . $table_name;
@@ -385,8 +408,11 @@
 								   	$all_disabled = !empty($meta_values) ? '' : 'disabled';
 
 								    ?>
-								    <div class="main_row <?php echo strtolower($table_name); ?>">
-										<strong><?php echo $table_name; ?></strong>
+								    <div class="main_row <?php echo strtolower($table_name); ?>" id="<?php echo strtolower($table_name); ?>">
+								    	<div class="row_title_parent">
+											<strong><?php echo $table_name; ?><i class="fas fa-regular fa-chevron-down"></i></strong>
+										</div>
+										<div class="row_vlaue_parent">
 										<label class="head_all <?php //echo $all_disabled; ?>"> 
 											<input 
 												type="checkbox" class="check_all" value="all" 
@@ -447,7 +473,7 @@
 											<?php }
 
 											//Sort by disabled at last
-											/*$this->array_sort_by_column($checkboxs, 'disabled');
+											/* $this->array_sort_by_column($checkboxs, 'disabled');
 
 											foreach($checkboxs as $checkbox){ ?>
 												<p><label class=" <?php echo $checkbox['disabled'] ? 'disabled' : '' ; ?> " >
@@ -460,9 +486,9 @@
 														<?php echo $checkbox['checked'] ? 'checked' : '' ; ?>  
 													> <?php echo $checkbox['label']; ?></label>
 												</p>
-											<?php }*/
-											
-										} ?>
+											<?php } */ ?>
+										</div>
+									<?php } ?>
 									</div>
 								<?php } ?>
 							</div>
@@ -471,7 +497,6 @@
                                 <div class="ajax-response" ></div>
 							</div>
 						</div>
-
 					</div>
 				</form>
 

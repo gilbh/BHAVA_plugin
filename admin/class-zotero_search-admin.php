@@ -20,6 +20,11 @@
  * @subpackage Zotero_search/admin
  * @author     Shebaz Multani <shebazm@itpathsolutions.co.in>
  */
+require plugin_dir_path( __FILE__ ) .'/../core/autoload.php';
+use PhpOffice\PhpSpreadsheet\Helper\Sample;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class Zotero_search_Admin {
 
 	/**
@@ -139,9 +144,9 @@ class Zotero_search_Admin {
         	if($_FILES['master_file']['type'] == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || $_FILES['master_file']['type'] == 'application/vnd.ms-excel' ){		    
         		$filepath = $_FILES['master_file']['tmp_name'];
 	        	if($filepath){
-		        	require_once dirname(__FILE__) . '/../core/PHPExcel-1.8/Classes/PHPExcel.php';
+		        	//require_once dirname(__FILE__) . '/../core/PHPExcel-1.8/Classes/PHPExcel.php';
 		        	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		        	$objReader = PHPExcel_IOFactory::load($filepath);
+		        	$objReader = IOFactory::load($filepath);
 		        	$SheetCount =  $objReader->getSheetCount();
 		        	if($SheetCount > 0){ $SQL ='';
 		        		for($i = 0; $i < $SheetCount; $i++){
