@@ -216,3 +216,22 @@ i {
 .zs_item_frm .zs_shortcode_form .zotero_category_list .row_title_parent input.active { background-color: #d9d9d9; }
 
 /* Dev 16-05-23 */
+
+/* Dev 13-06-23 */
+.main_row_content.list_style_active .main_row {
+    padding-left: 0;
+    padding-top: 10px;
+}
+
+.main_row_content.list_style_active .main_row strong {
+    color: #000;
+    letter-spacing: 1px;
+}
+
+.main_row_content.list_style_active .main_row strong i {
+    font-size: 14px;
+}
+
+.main_row_content.list_style_active .main_row:first-child {
+    padding-left: 16px;
+}

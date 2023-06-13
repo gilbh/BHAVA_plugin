@@ -368,8 +368,8 @@
 								?>
 								<?php if(isset($sz_sc_attr['version']) && ( $sz_sc_attr['version']== "v2" || $sz_sc_attr['version']== "v3" ) ){ ?>
 								<div class="style_list_button">
-									<input type="button" name="list_style" class="change_style_btn active_style" value="List View">
-									<input type="button" name="menu_style" class="change_style_btn" value="Menu View">
+									<input type="button" name="list_style" class="change_style_btn active_style" value="Swith to menu view">
+<!-- 									<input type="button" name="menu_style" class="change_style_btn" value="Menu View"> -->
 								</div>
 								<div class="zotero_category_list">
 									<?php 
@@ -388,7 +388,7 @@
 								</div>
 								<?php } ?>
 
-							<div class="main_row_content">	
+							<div class="main_row_content list_style_active">	
 								<?php
 								foreach ($mytables as $mytable) {   
 								    $table_name 	= $mytable->table_name;

@@ -244,6 +244,9 @@
                             var totalUpdateCall = Math.ceil(totalItemNumber/chunk);
                             var itemUpdateErrors = [];
 							ajaxresponse.html('<p>Please wait, generating URL..</p>' );
+                            setTimeout(function(){
+                            ajaxresponse.html('<p>still working, estimated time should no be longer than 45 seconds</p>' );
+							},10000);
 							setTimeout(function(){
 	                            for(var $i = 0; $i < totalItemNumber; $i+=chunk) {
 	                                limitedItems = updateItems.slice($i,$i+chunk);
@@ -278,7 +281,7 @@
 										},
 										complete: function(){
 											var completePer = Math.ceil((100 * $j) / totalUpdateCall);
-							ajaxresponse.html('<p>Please wait, generating URL.. '+completePer+'%</p>' );
+							//ajaxresponse.html('<p>Please wait, generating URL.. '+completePer+'%</p>' );
 											console.log('Please wait, generating URL.. '+completePer+'%');
 											// submitBtn.attr('disabled' , false);
 										}
@@ -399,15 +402,25 @@
 
 	// Dev 01-05-23
 	$(document).on('click',".zs_item_frm .style_list_button .change_style_btn",function(){
+			if ($(this).prop('name') == "list_style"){
+			   $(this).val("Swith to list view");
+			   $(this).prop('name',"menu_style");
+			}else{
+			   $(this).val("Swith to menu view");
+			   $(this).prop('name',"list_style");
+			}
 			var design_val = $(this).prop('name');
 			$('.zs_item_frm .style_list_button .change_style_btn').removeClass('active_style');
 			if(design_val == 'menu_style'){
 				$(this).parents().find('.main_row_content').addClass('menu_style_active');
+				$(this).parents().find('.main_row_content').removeClass('list_style_active');
 				$(this).parents().find('.zotero_category_list').fadeIn('slow');
-				$('.zs_shortcode_form .zotero_category_list input:first-child').click();
+				$('.zs_shortcode_form .zotero_category_list input:last-child').click();
+				$('.zs_shortcode_form .zotero_category_list  .row_title_parent:first-child input').click();
 			}else{
 				$(this).parents().find('.zotero_category_list').hide();
 				$(this).parents().find('.main_row_content').removeClass('menu_style_active');
+				$(this).parents().find('.main_row_content').addClass('list_style_active');
 			}
 			$(this).addClass('active_style');
 	});
