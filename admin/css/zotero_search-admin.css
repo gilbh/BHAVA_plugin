@@ -22,3 +22,8 @@
 .toplevel_page_zotero_search-admin li.wp-first-item{
     display: none;
 }
+
+/* 15-06-23 */
+.zs_label_update_section {
+    margin: 15px 0px;
+}

@@ -171,7 +171,7 @@ i {
 .zs_shortcode_form .menu_style_active .main_row label {
     background: #fff;
     display: inline-block;
-    width: calc( 100% - 15px ) !important;
+    width: calc( 100% - 10px ) !important;
     padding: 12px 15px;
     cursor: pointer;
 }
@@ -234,4 +234,35 @@ i {
 
 .main_row_content.list_style_active .main_row:first-child {
     padding-left: 16px;
+}
+.search-wrapper {
+	display:flex;
+	justify-content:space-between;
+}
+img.style_icon {
+    margin-right: 10px;
+	height: 20px;
+}
+button[name="menu_style"] > .list_icon, button[name="list_style"] > .menu_icon {
+	display:none;
+}
+.zs_shortcode_form .change_style_btn.active_style{
+    min-width: 252px;
+}
+
+/*  15-06-2023 */
+.parent-div .zs_shortcode_form .style_list_button .change_style_btn {
+    padding: 0.9rem 2rem;
+    min-height: 50.38px;
+    min-width: 220px;
+}
+.zotero_category_list.menu_style_show{
+	display:flex;
+	flex-wrap:wrap;
+}
+.parent-div  .zotero_category_list .row_title_parent {
+    width: calc(100% / 8 - 0px);
+}
+.zotero_category_list .row_title_parent input {
+    width: 100%;
 }

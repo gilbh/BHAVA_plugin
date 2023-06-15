@@ -24,6 +24,12 @@
 		$tbl_id = $_GET['tbl_id'];
 		$delete = $wpdb->delete($current_tbl, ['ID' => $tbl_id]);
 	}
+	// 
+	if(!empty($_POST['table_lable_value']) && !empty($current_tbl)){
+		$tbl_label_val = $_POST['table_lable_value'];
+		$default_label = trim(str_replace('wp_zs_','',$current_tbl));
+		$label_update = $wpdb->query($wpdb->prepare("UPDATE $table_tbl SET table_label = '".$tbl_label_val."' WHERE table_name = '".$default_label."'"));
+	}
 
 ?>
 
@@ -135,7 +141,25 @@
 	<?php if(!empty($current_tbl)){
 		$tbl_columns = $wpdb->get_col("DESC $current_tbl", 0);
 		$tbl_data = $wpdb->get_results("SELECT * FROM $current_tbl",ARRAY_A  );
+		// Check tabel_label Column exiest or not if not add
+		// Added for New Label Function
+		$default_label = trim(str_replace('wp_zs_','',$current_tbl)); 
+		if($wpdb->get_var("SHOW TABLES LIKE '".$table_tbl."'") == $table_tbl.""){
+			$sql = "SELECT COUNT(*) AS a FROM information_schema.COLUMNS WHERE TABLE_NAME = '".$table_tbl."' AND COLUMN_NAME =  'table_label'";
+			$query_data = $wpdb->get_results($sql);
+			if($query_data[0]->a == 0){
+				$sql2 = 'ALTER TABLE `'.$table_tbl.'` ADD `table_label` tinytext NOT NULL AFTER `table_name`';
+				$wpdb->query($sql2);
+			}
+		}
+		$current_tbl_name = $wpdb->get_row("SELECT table_label FROM $table_tbl WHERE table_name != 'master' AND table_name = '".$default_label."' ",ARRAY_A);
 		?>
+		<div class="zs_label_update_section">
+			<form action="" method="POST" id="facetes_label_update">
+				<input type="text" name="table_lable_value" value="<?php echo !empty($current_tbl_name['table_label']) ? $current_tbl_name['table_label'] : '' ; ?>">
+				<input type="submit">
+			</form>
+		</div>
 		<table class="wp-list-table widefat fixed striped">
 			<thead>
 				<tr>

@@ -59,6 +59,7 @@ class Zotero_search_Activator {
 		$sql = "CREATE TABLE $table_tbl (
 		  id mediumint(9) NOT NULL AUTO_INCREMENT,
 		  table_name tinytext NOT NULL,
+		  table_label tinytext NOT NULL,
 		  PRIMARY KEY (id)
 		) $charset_collate; ";
 

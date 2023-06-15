@@ -312,15 +312,27 @@
 					<div class="parent-div" >
 						<div class="main zs_shortcode_form ">
 							<?php if ($curators) { echo "<h2>Curators</h2>"; } ?>
-							<div class="list-head">
-								<input type="hidden" name="action" value="zs_search_items" >
-								<input type="hidden" name="all_checked" id="all_checked" value="" >
-								<input type="text" name="keyword" placeholder="Enter keyword here.." style="width: 30%;display: none;">
-								<input type="submit" name="" value="<?php echo apply_filters('zs_search_txt' , 'Search' ); ?>">
-								<a href="javascript:;" id="reset-frm" >Clear Selection</a>
-								<?php $zs_zotero_total_items = get_option('zs_zotero_total_items');
-								if ($zs_zotero_total_items) { ?>
-									<span> Total Records: <?php echo $zs_zotero_total_items; ?> Items</span>
+							<div class="search-wrapper">
+								<div class="list-head">
+									<input type="hidden" name="action" value="zs_search_items" >
+									<input type="hidden" name="all_checked" id="all_checked" value="" >
+									<input type="text" name="keyword" placeholder="Enter keyword here.." style="width: 30%;display: none;">
+									<input type="submit" name="" value="<?php echo apply_filters('zs_search_txt' , 'Search' ); ?>">
+									<a href="javascript:;" id="reset-frm" >Clear Selection</a>
+									<?php $zs_zotero_total_items = get_option('zs_zotero_total_items');
+									if ($zs_zotero_total_items) { ?>
+										<span> Total Records: <?php echo $zs_zotero_total_items; ?> Items</span>
+									<?php } ?>
+								</div>
+								<?php if(isset($sz_sc_attr['version']) && ( $sz_sc_attr['version']== "v2" || $sz_sc_attr['version']== "v3" ) ){ ?>
+								<div class="style_list_button">
+									<button type="button" name="list_style" class="change_style_btn active_style" >
+										<img class="menu_icon style_icon" src="<?php echo plugin_dir_url(__FILE__); ?>/img/layout-list.svg">
+										<img class="list_icon style_icon" src="<?php echo plugin_dir_url(__FILE__); ?>/img/list-check.svg">
+										<span>List layout</span>
+									</button>
+	<!-- 									<input type="button" name="menu_style" class="change_style_btn" value="Menu View"> -->
+								</div>
 								<?php } ?>
 							</div>
 							<div class="ajax-response" ></div>
@@ -367,22 +379,22 @@
 									$meta_keys = $wpdb->get_col("SELECT DISTINCT(meta_key) FROM $itemmeta_tbl");
 								?>
 								<?php if(isset($sz_sc_attr['version']) && ( $sz_sc_attr['version']== "v2" || $sz_sc_attr['version']== "v3" ) ){ ?>
-								<div class="style_list_button">
-									<input type="button" name="list_style" class="change_style_btn active_style" value="Swith to menu view">
-<!-- 									<input type="button" name="menu_style" class="change_style_btn" value="Menu View"> -->
-								</div>
 								<div class="zotero_category_list">
 									<?php 
 									// $meta_values = $wpdb->get_col("SELECT DISTINCT(meta_value) FROM $itemmeta_tbl");
 									foreach ($mytables as $mytable) {
-								    	$table_name 	= $mytable->table_name;
+								    	$table_label = $mytable->table_label;
+										$table_name = $mytable->table_name;
+								    	if(empty($table_label)){
+								    		$table_label = ucfirst($mytable->table_name);
+								    	}
 										if($sz_sc_attr['version']== "v3"){
 									?>
 											<div class="row_title_parent" bis_skin_checked="1">
-												<input type="button" name="" value="<?php echo strtolower($table_name); ?>">
+												<input type="button" data-val="<?php echo strtolower($table_name); ?>" value="<?php echo strtolower($table_label); ?>">
 											</div>
 										<?php }else{ ?>
-												<input type="button" name="" value="<?php echo strtolower($table_name); ?>">
+												<input type="button" data-val="<?php echo strtolower($table_name); ?>" value="<?php echo strtolower($table_label); ?>">
 									<?php 	} 
 									} ?>
 								</div>
@@ -406,11 +418,18 @@
 								    $meta_values = [];
 								    $meta_values = $wpdb->get_col("SELECT DISTINCT(meta_value) FROM $itemmeta_tbl WHERE meta_key = $table_slug_id"); 
 								   	$all_disabled = !empty($meta_values) ? '' : 'disabled';
+									
+									// New Table Label added after 15-06-23
+								   	$table_label = $mytable->table_label;
+								    if(empty($table_label)){
+								    	$table_label = ucfirst($mytable->table_name);
+								    }
+
 
 								    ?>
 								    <div class="main_row <?php echo strtolower($table_name); ?>" id="<?php echo strtolower($table_name); ?>">
 								    	<div class="row_title_parent">
-											<strong><?php echo $table_name; ?><i class="fas fa-regular fa-chevron-down"></i></strong>
+											<strong><?php echo $table_label; ?><i class="fas fa-regular fa-chevron-down"></i></strong>
 										</div>
 										<div class="row_vlaue_parent">
 										<label class="head_all <?php //echo $all_disabled; ?>"> 
