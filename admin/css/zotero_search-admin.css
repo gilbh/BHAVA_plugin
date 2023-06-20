@@ -27,3 +27,14 @@
 .zs_label_update_section {
     margin: 15px 0px;
 }
+
+
+#import-zotero-data-frm label > input, #facetes_label_update label > input {
+    width: 250px;
+    margin: 5px 0;
+}
+#import-zotero-data-frm label, #facetes_label_update label{
+    display: flex;
+    flex-direction: column;
+    margin: 5px 0;
+}

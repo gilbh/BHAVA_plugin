@@ -144,7 +144,6 @@ class Zotero_search_Admin {
         	if($_FILES['master_file']['type'] == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || $_FILES['master_file']['type'] == 'application/vnd.ms-excel' ){		    
         		$filepath = $_FILES['master_file']['tmp_name'];
 	        	if($filepath){
-		        	//require_once dirname(__FILE__) . '/../core/PHPExcel-1.8/Classes/PHPExcel.php';
 		        	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		        	$objReader = IOFactory::load($filepath);
 		        	$SheetCount =  $objReader->getSheetCount();
@@ -378,6 +377,7 @@ class Zotero_search_Admin {
 					if(!empty($items_api_response['body'])){
 						$items_api_response_body = json_decode($items_api_response['body'], true);
 						$found_items = count($items_api_response_body);
+						$item_option[] = ''; // Added for Delete facet values with less then 2
 						foreach($items_api_response_body as $item){
 							if(isset($item['data']['note'])){
 								$item_id = $item['data']['parentItem'];
@@ -424,6 +424,9 @@ class Zotero_search_Admin {
 																$insertItemMetaData .= " ( '$item_id' , '$meta_key_id' , '$option_id' ),";
 															}
 														}
+
+														// Added for Delete facet values with less then 2
+														$item_option[$meta_key_id][$option_id] = $wpdb->get_var("SELECT COUNT(*) FROM $itemmeta_tbl WHERE  meta_key = '$meta_key_id' AND meta_value = '$option_id' ");
 													}
 												}
 											}
@@ -444,6 +447,33 @@ class Zotero_search_Admin {
 				if( $found_items < $limit ) break;
 			}
 
+			// Added for Delete facet values with less then 2
+			if(isset( $_POST['result_count'] )){
+				$del_count = $_POST['result_count'];
+			}else{
+        		$del_count = 2;
+        	}
+			$que[] = '';
+			$del_ids[] = '';
+			foreach ($item_option as $io_key => $item_option_values) {
+				$meta_key_name = $wpdb->get_var("SELECT table_name FROM $table_tbl WHERE id = '$io_key' ");
+				if(!empty($meta_key_name)){
+					$del_tbl_name = $tbl_prefix . $meta_key_name;
+				}
+				$del_ids = [];
+				foreach ($item_option_values as $key => $item_option_value) {
+					if(!empty($item_option_value) && $item_option_value <= $del_count){
+						$del_ids[] = $key;
+					}
+				}
+				$comma_sap_del_ids = implode(', ', $del_ids);
+				if(!empty($comma_sap_del_ids)){
+					$wpdb->query($wpdb->prepare("DELETE FROM $del_tbl_name WHERE ID IN ( $comma_sap_del_ids ) "));
+					$que[] = "DELETE FROM $del_tbl_name WHERE ID IN ( $comma_sap_del_ids)";
+				}
+			}
+			// Added for Delete facet values with less then 2 end
+
 			$remaning_items_key = array_diff($top_items_key, $found_items_key);
 			// $data['remaning_items_key'][] = $remaning_items_key;
 			$message = 'Data synced successfully.';
@@ -453,7 +483,8 @@ class Zotero_search_Admin {
         	$response = [
         		'status' => 'success',
         		'message' => $message,
-        		'data' => $data
+        		'data' => $data,
+        		'del' => $que,
         	];	
 		} else{
         	$response = [

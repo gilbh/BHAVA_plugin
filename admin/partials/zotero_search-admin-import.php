@@ -86,7 +86,10 @@
 	
 	<form id="import-zotero-data-frm" >
 		<input type="hidden" name="action" value="import_zotero_data">
-		<input type="hidden" name="import_zotero_data_api" value="<?php echo wp_create_nonce( 'import_zotero_data_api' ) ?>" />		
+		<input type="hidden" name="import_zotero_data_api" value="<?php echo wp_create_nonce( 'import_zotero_data_api' ) ?>" />
+		<label for="result_count"> Delete facet values with less then XXX (default value of 2) bibliographic items
+			<input type="number" name="result_count" value="import_zotero_data">
+		</label>
 		<div style="display: flex;" >
 			
 		<div style="margin-top: 15px;" >
@@ -156,7 +159,10 @@
 		?>
 		<div class="zs_label_update_section">
 			<form action="" method="POST" id="facetes_label_update">
-				<input type="text" name="table_lable_value" value="<?php echo !empty($current_tbl_name['table_label']) ? $current_tbl_name['table_label'] : '' ; ?>">
+				<label for="table_lable_value">
+					Change facet label (leave empty to display facet name as it appears in the table):
+					<input type="text" name="table_lable_value" value="<?php echo !empty($current_tbl_name['table_label']) ? $current_tbl_name['table_label'] : '' ; ?>">
+				</label>
 				<input type="submit">
 			</form>
 		</div>
