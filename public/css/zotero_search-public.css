@@ -266,3 +266,20 @@ button[name="menu_style"] > .list_icon, button[name="list_style"] > .menu_icon {
 .zotero_category_list .row_title_parent input {
     width: 100%;
 }
+/* 26-06-23 */
+.zs_shortcode_form .list-head {
+    flex-direction: column;
+}
+.style_list_button {
+    display: flex;
+	justify-content: center;
+    align-items: flex-end;
+}
+span.result_count {
+    margin: 10px;
+}
+
+.list-head-main {
+    display: flex;
+    gap: 20px;
+}

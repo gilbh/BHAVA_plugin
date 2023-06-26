@@ -87,7 +87,8 @@
 	<form id="import-zotero-data-frm" >
 		<input type="hidden" name="action" value="import_zotero_data">
 		<input type="hidden" name="import_zotero_data_api" value="<?php echo wp_create_nonce( 'import_zotero_data_api' ) ?>" />
-		<label for="result_count"> Delete facet values with less then XXX (default value of 2) bibliographic items
+		<label for="result_count"> Remove facet items with less than X bibliographies: [default value is 2] <br>
+			*make sure to import Faceted Classification Table before clicking Start Sync to assure all facet items are considered
 			<input type="number" name="result_count" value="import_zotero_data">
 		</label>
 		<div style="display: flex;" >

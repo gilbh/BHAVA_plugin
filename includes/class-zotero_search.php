@@ -215,7 +215,7 @@ class Zotero_search {
 		global $wpdb;
 	    $post_tbl = $wpdb->prefix . "posts";
 	    //Get all pages slug with [form_control_table] shortcode
-	    $pages = $wpdb->get_results( "SELECT post_name,post_parent FROM $post_tbl WHERE post_content LIKE '%[$shortcode_name]%' AND post_type = 'page' AND post_status = 'publish' " );
+	    $pages = $wpdb->get_results( "SELECT post_name,post_parent FROM $post_tbl WHERE post_content LIKE '%$shortcode_name%' AND post_type = 'page' AND post_status = 'publish' " );
 	    if(!empty($pages)){
 	    	foreach($pages as $page){
 	    		$page_slug = $page->post_name;
