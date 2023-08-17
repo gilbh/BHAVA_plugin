@@ -76,15 +76,22 @@
 		all_checked.val(all_checked_val);
 		
 		var missings = [];
-		$('.zs_shortcode_form .main_row').each(function(){
+		var selectedRowCount = 0;
+		$('.zs_shortcode_form .main_row').each(function(index,ele){
 			var tag_lines = '';
+			var menu_tagLines = '';
+			var totalSpans = $('.zs_shortcode_form .main_row').length;
 			$('input[type="checkbox"]:checked:not(.check_all)', this).each(function(){
 				tag_lines = tag_lines + $(this).data('label') + ' | ';
+				menu_tagLines = menu_tagLines + $(this).data('label') + '/';
 			});
+
 			tag_lines = tag_lines.slice(0,-2);
+			menu_tagLines = menu_tagLines.slice(0,-1);
 			var tag = '<span>' + tag_lines + '</span>';
 			var parent_label = $(this).find('strong').text();
 			var parent = $('.selected_labels .'+parent_label);
+			var style_parent = $('.zs_hidden_tags .'+parent_label);
 			if(tag_lines){
 				parent.css("display", "block");
 				parent.html('<b>'+parent_label+' = </b>'+tag_lines);
@@ -92,9 +99,27 @@
 				missings.push(parent.find('b').text().replace(' = ', ''));
 				parent.hide(); 
 			}
-
+			var word_and = '';
+			console.log(menu_tagLines);
+			if ($('input[type="checkbox"]:checked:not(.check_all)', this).length > 0) {
+				selectedRowCount++; // Increment the count of selected elements
+			}
+			if(menu_tagLines){
+				style_parent.css("display", "block");
+				style_parent.html(menu_tagLines.toUpperCase() + word_and);
+				// Check if two or more .zs_shortcode_form .main_row elements are selected
+				if (selectedRowCount >= 2 && index < totalSpans - 1) {
+					// Add your desired text after menu_tagLines for the case when two or more elements are selected
+					var additionalText = " and";
+					// Modify the style_parent element to include the additional text
+					style_parent.html(additionalText + " " + menu_tagLines.toUpperCase());
+				}
+			}else{ 
+				missings.push();
+				style_parent.hide(); 
+			}
 		});
-			localStorage.setItem("missings_tags", JSON.stringify(missings));
+		localStorage.setItem("missings_tags", JSON.stringify(missings));
 
 
 		var allCheckBox = $('.zs_shortcode_form input[type="checkbox"]');
@@ -151,6 +176,9 @@
 	});
 
 	
+	function generateRandomNumber() {
+        return Math.floor(Math.random() * 100000);
+    }
 	$(document).on('click', '.zs_shortcode_form [type=submit]', function(e){
 		e.preventDefault();
 		var $this = $(this);
@@ -180,7 +208,8 @@
 					var today = new Date();
 					var yesterday  = new Date(today); yesterday.setDate(yesterday.getDate() - 1)
 					var yesterdayDate = yesterday.getFullYear()+''+(yesterday.getMonth()+1)+''+yesterday.getDate();
-					var token_prefix = 'temp_id_';
+					// var token_prefix = 'temp_id_';
+					var token_prefix = 'temp_id_'+ generateRandomNumber() + '|';
 					var TOKEN = token_prefix + Math.floor(today.getTime() / 1000);
 					var redirect = "https://www.zotero.org/groups/"+AID.userid+"/tags/" + TOKEN;
 					var APIEndpoint = AID.endpoint +"/groups/"+AID.userid+"/items"  ;
@@ -203,8 +232,10 @@
                                         if(tags != ''){
                                             $.each(tags, function( index, tag ) {
                                                 var tTag = tag.tag;
-                                                var tsTag = tTag.replace(token_prefix,'');
-                                                var tNow = new Date(tsTag * 1000);
+//                                              var tsTag = tTag.replace(token_prefix,'');
+//                                              var tNow = new Date(tsTag * 1000);
+                                              	var tsTag = tTag.split('|');
+                                                var tNow = new Date(tsTag[1] * 1000);
                                                 var tdate = tNow.getFullYear()+''+(tNow.getMonth()+1)+''+tNow.getDate();
                                                 //Only include tags not older then 2 days 
                                                 if($.isNumeric(tdate)){
@@ -243,7 +274,7 @@
                             var totalItemNumber = updateItems.length;
                             var totalUpdateCall = Math.ceil(totalItemNumber/chunk);
                             var itemUpdateErrors = [];
-							ajaxresponse.html('<p>Please wait, generating URL..</p>' );
+							ajaxresponse.html('<p>Please wait, generating URL ...</p>' );
 //                             setTimeout(function(){
 //                             ajaxresponse.html('<p>still working, estimated time should no be longer than 45 seconds</p>' );
 // 							},10000);
@@ -281,8 +312,8 @@
 										},
 										complete: function(){
 											var completePer = Math.ceil((100 * $j) / totalUpdateCall);
-											ajaxresponse.html('<p>Please wait, generating URL.. '+completePer+'%</p>' );
-											console.log('Please wait, generating URL.. '+completePer+'%');
+											ajaxresponse.html('<p>Please wait, generating URL ... '+completePer+'%</p>' );
+											console.log('Please wait, generating URL ... '+completePer+'%');
 											// submitBtn.attr('disabled' , false);
 										}
 									});
@@ -292,7 +323,7 @@
 								$this.attr('redirect_url', redirect);
 								setTimeout(function(){
 									window.open(redirect, '_blank');
-									ajaxresponse.html('<p>If not automatically redirected click here: <a target="_blank" href="'+redirect+'" >'+redirect+'</a></p>');
+									ajaxresponse.html('<p>If not automatically redirected click here: <a target="_blank" href="'+redirect+'" >'+redirect+'</a><br><strong>This link will expire after 24 hours</strong>. To keep the results, select the desired bibliographies in Zotero and export them by clicking on the <img src="'+ zs_wpjs.plugin_url +'/img/export.svg"> icon.</p>');
 									if(itemUpdateErrors.length > 0){
 									$.each(itemUpdateErrors, function($i, $errorMsg){
 											ajaxresponse.append('<p style="color:red;" >ERROR: Error while updating item tags. '+$errorMsg+'</p>');
@@ -424,6 +455,11 @@
 			}
 			$(this).addClass('active_style');
 	});
+	// For Defaulet menu style active activate first label 
+	jQuery(document).ready(function(){
+		$('.zs_shortcode_form .zotero_category_list  .row_title_parent:first-child input').click();
+	});
+	
 	$(document).on('click','.zotero_category_list input', function(){
 		var target = $(this).data('val');
 		$('.zotero_category_list input').removeClass('active');

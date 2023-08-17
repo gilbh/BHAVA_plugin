@@ -98,8 +98,9 @@
 			 */
 
 			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/zotero_search-public.js', array( 'jquery' ), $this->version, false );
+			$plugin_dir = plugin_dir_url(__FILE__);
 			wp_localize_script( $this->plugin_name, 'zs_wpjs',
-		        [ 'ajaxurl' => admin_url( 'admin-ajax.php' ) ]
+		        [ 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'plugin_url' => $plugin_dir ]
 		    );
 		}
 
@@ -301,9 +302,9 @@
 			$url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
 			if(strpos($url_path, $custom_route_slug ) !== false){ $curators = true; }
 
-			$tbl_SQL = "SELECT * FROM $table_tbl WHERE table_name != 'master' AND table_name != 'curators'";
+			$tbl_SQL = "SELECT * FROM $table_tbl WHERE table_name != 'master' AND table_name != 'curators' ORDER BY id ASC";
 			if($curators) {
-				$tbl_SQL = "SELECT * FROM $table_tbl WHERE table_name != 'master'";
+				$tbl_SQL = "SELECT * FROM $table_tbl WHERE table_name != 'master' ORDER BY id ASC";
 			}
 			$mytables = $wpdb->get_results( $tbl_SQL );
 			$version_class = '';
@@ -319,20 +320,20 @@
 									<input type="text" name="keyword" placeholder="Enter keyword here.." style="width: 30%;display: none;">
 									<?php $zs_zotero_total_items = get_option('zs_zotero_total_items');
 									if ($zs_zotero_total_items) { ?>
-										<span> Total Records: <?php echo $zs_zotero_total_items; ?> Items</span>
+										<span class="result_count"> Total Records: <?php echo $zs_zotero_total_items; ?> Items</span>
 									<?php } ?>
 									<input type="submit" name="" value="<?php echo apply_filters('zs_search_txt' , 'Search' ); ?>">
 								</div>
 								<?php if(isset($sz_sc_attr['version']) && ( $sz_sc_attr['version']== "v2" || $sz_sc_attr['version']== "v3" ) ){ ?>
-								<div class="style_list_button">
-									<a href="javascript:;" id="reset-frm" >Clear Selection</a>
-									<button type="button" name="list_style" class="change_style_btn active_style" >
-										<img class="menu_icon style_icon" src="<?php echo plugin_dir_url(__FILE__); ?>/img/layout-list.svg">
-										<img class="list_icon style_icon" src="<?php echo plugin_dir_url(__FILE__); ?>/img/list-check.svg">
-										<span>List layout</span>
-									</button>
-	<!-- 									<input type="button" name="menu_style" class="change_style_btn" value="Menu View"> -->
-								</div>
+									<div class="style_list_button">
+										<a href="javascript:;" id="reset-frm" >Clear Selection</a>
+										<button type="button" name="menu_style" class="change_style_btn active_style" >
+											<img class="menu_icon style_icon" src="<?php echo plugin_dir_url(__FILE__); ?>/img/layout-list.svg">
+											<img class="list_icon style_icon" src="<?php echo plugin_dir_url(__FILE__); ?>/img/list-check.svg">
+											<span>Menu layout</span>
+										</button>
+		<!-- 									<input type="button" name="menu_style" class="change_style_btn" value="Menu View"> -->
+									</div>
 								<?php } ?>
 							</div>
 							<div class="ajax-response" ></div>
@@ -379,7 +380,38 @@
 									$meta_keys = $wpdb->get_col("SELECT DISTINCT(meta_key) FROM $itemmeta_tbl");
 								?>
 								<?php if(isset($sz_sc_attr['version']) && ( $sz_sc_attr['version']== "v2" || $sz_sc_attr['version']== "v3" ) ){ ?>
-								<div class="zotero_category_list">
+												<?php if (!$curators) { ?>
+									<div class="zs_hidden_tags">
+										<div id="taglines" >
+											<?php 
+											if(!empty($mytables)){
+												foreach($mytables as $mytable){
+													$table_name = ucfirst($mytable->table_label);
+													if(empty($table_name)){
+														$table_name = ucfirst($mytable->table_name);
+													}
+													if(isset($_POST[$mytable->id]) && !empty($_POST[$mytable->id])){
+														$sub = $_POST[$mytable->id];
+														$main_label = $wpdb->get_var("SELECT table_name FROM $table_tbl WHERE ID = $mytable->id");
+														$main_label_name = $tbl_prefix . $main_label;
+														$labels = '';
+														foreach($sub as $s){
+															$label  = $wpdb->get_row("SELECT * FROM $main_label_name WHERE ID = $s",ARRAY_N);
+															$_label  = trim($label[1]) . ' | ';
+															$labels .= $_label;
+														}
+														$labels = rtrim($labels,'| ');
+														echo "<label class=' $table_name'><span>$labels</span> </label>";
+													}else{
+														echo "<label class='hide $table_name'></label>";
+													}
+
+												}
+											} ?>
+										</div>
+									</div>
+									<?php } ?>
+								<div class="zotero_category_list menu_style_show">
 									<?php 
 									// $meta_values = $wpdb->get_col("SELECT DISTINCT(meta_value) FROM $itemmeta_tbl");
 									foreach ($mytables as $mytable) {
@@ -400,7 +432,7 @@
 								</div>
 								<?php } ?>
 
-							<div class="main_row_content list_style_active">	
+							<div class="main_row_content menu_style_active">	
 								<?php
 								foreach ($mytables as $mytable) {   
 								    $table_name 	= $mytable->table_name;

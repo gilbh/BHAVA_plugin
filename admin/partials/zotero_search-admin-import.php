@@ -86,9 +86,8 @@
 	
 	<form id="import-zotero-data-frm" >
 		<input type="hidden" name="action" value="import_zotero_data">
-		<input type="hidden" name="import_zotero_data_api" value="<?php echo wp_create_nonce( 'import_zotero_data_api' ) ?>" />
-		<label for="result_count"> Remove facet items with less than X bibliographies: [default value is 2] <br>
-			*make sure to import Faceted Classification Table before clicking Start Sync to assure all facet items are considered
+		<input type="hidden" name="import_zotero_data_api" value="<?php echo wp_create_nonce( 'import_zotero_data_api' ) ?>" />	
+		<label for="result_count"> Remove facet items with less than X bibliographies: [default value is 2] <br> *make sure to import Faceted Classification Table before clicking Start Sync to assure all facet items are considered
 			<input type="number" name="result_count" value="import_zotero_data">
 		</label>
 		<div style="display: flex;" >
@@ -124,7 +123,7 @@
 		<ul class="subsubsub">
 		<?php 
 
-		$mytables = $wpdb->get_results("SELECT * FROM $table_tbl WHERE table_name != 'master'");
+		$mytables = $wpdb->get_results("SELECT * FROM $table_tbl WHERE table_name != 'master' ORDER BY id ASC");
 		$tbl_count = count($mytables);
 		if(!empty($mytables)){ $i=0;
 			foreach($mytables as $mytable){ $i++;
@@ -152,7 +151,7 @@
 			$sql = "SELECT COUNT(*) AS a FROM information_schema.COLUMNS WHERE TABLE_NAME = '".$table_tbl."' AND COLUMN_NAME =  'table_label'";
 			$query_data = $wpdb->get_results($sql);
 			if($query_data[0]->a == 0){
-				$sql2 = 'ALTER TABLE `'.$table_tbl.'` ADD `table_label` tinytext NOT NULL AFTER `table_name`';
+				$sql2 = 'ALTER TABLE `'.$table_tbl.'` ADD `table_label` tinytext NULL AFTER `table_name`';
 				$wpdb->query($sql2);
 			}
 		}

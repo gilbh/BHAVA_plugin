@@ -5,7 +5,7 @@
  *
  * This file is used to markup the public-facing aspects of the plugin.
  *
- * @link       shebazm@itpathsolutions.com
+ * @link       shebazm@itpathsolutions.co.in
  * @since      1.0.0
  *
  * @package    Zotero_search

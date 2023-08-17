@@ -187,8 +187,9 @@ class Zotero_search_Admin {
 				        	dbDelta( $SQL );
 
 				        	// $t = $wpdb->get_var("SELECT id FROM $table_tbl WHERE table_name = '$sheet_name' ");
+				        	$table_label = $wpdb->get_var("SELECT table_label FROM $table_tbl WHERE table_name = '$sheet_name' ");
 				        	$wpdb->delete($table_tbl, ['table_name' => $sheet_name] );
-				        	$wpdb->insert($table_tbl, ['table_name' => $sheet_name]);
+				        	$wpdb->insert($table_tbl, ['table_name' => $sheet_name,'table_label'=> isset($table_label) ? $table_label : null]);
 							
 				        	$first = true;
 							$total_tbl_columns = count($tbl_columns);

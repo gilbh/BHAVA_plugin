@@ -18,7 +18,7 @@
  * @since      1.0.0
  * @package    Zotero_search
  * @subpackage Zotero_search/includes
- * @author     Shebaz Multani <shebazm@itpathsolutions.com>
+ * @author     Shebaz Multani <shebazm@itpathsolutions.co.in>
  */
 class Zotero_search_Activator {
 
@@ -48,10 +48,7 @@ class Zotero_search_Activator {
 		  item_id tinytext NOT NULL,
 		  meta_key mediumint(9) NULL,
 		  meta_value mediumint(9) NULL,
-		  PRIMARY KEY (id),
-		  KEY item_id (item_id(63)),
-		  KEY meta_key (meta_key),
-		  KEY meta_value (meta_value)
+		  PRIMARY KEY  (id)
 		) $charset_collate; ";
 
 		dbDelta( $sql );
@@ -59,8 +56,8 @@ class Zotero_search_Activator {
 		$sql = "CREATE TABLE $table_tbl (
 		  id mediumint(9) NOT NULL AUTO_INCREMENT,
 		  table_name tinytext NOT NULL,
-		  table_label tinytext NOT NULL,
-		  PRIMARY KEY (id)
+		  table_label tinytext NULL,
+		  PRIMARY KEY  (id)
 		) $charset_collate; ";
 
 		dbDelta( $sql );
@@ -70,7 +67,7 @@ class Zotero_search_Activator {
 		  id mediumint(9) NOT NULL AUTO_INCREMENT,
 		  $periods tinytext NOT NULL,
 		  note tinytext NULL, 
-		  PRIMARY KEY (id)
+		  PRIMARY KEY  (id)
 		) $charset_collate; ";
 
 		dbDelta( $sql );
@@ -81,8 +78,6 @@ class Zotero_search_Activator {
 		if (! wp_next_scheduled ( 'zs_daily_scheduled_sync_zotero_data' )) {
 			wp_schedule_event( time(), 'daily', 'zs_daily_scheduled_sync_zotero_data' );
 		}
-
-
 
 	}
 
