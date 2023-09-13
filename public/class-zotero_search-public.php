@@ -314,21 +314,26 @@
 						<div class="main zs_shortcode_form ">
 							<?php if ($curators) { echo "<h2>Curators</h2>"; } ?>
 							<div class="search-wrapper">
-								<div class="list-head">
-									<input type="hidden" name="action" value="zs_search_items" >
-									<input type="hidden" name="all_checked" id="all_checked" value="" >
-									<input type="text" name="keyword" placeholder="Enter keyword here.." style="width: 30%;display: none;">
+								<div class="style_list_button">
+									<div class="list-head">
+										<input type="hidden" name="action" value="zs_search_items" >
+										<input type="hidden" name="all_checked" id="all_checked" value="" >
+										<input type="text" name="keyword" placeholder="Enter keyword here.." style="width: 30%;display: none;">
+										<input type="submit" name="" value="<?php echo apply_filters('zs_search_txt' , 'Search' ); ?>">
+									</div>
 									<?php $zs_zotero_total_items = get_option('zs_zotero_total_items');
-									if ($zs_zotero_total_items) { ?>
-										<span class="result_count"> Total Records: <?php echo $zs_zotero_total_items; ?> Items</span>
+										if ($zs_zotero_total_items) { ?>
+											<span class="result_count"> Total Records: <?php echo $zs_zotero_total_items; ?> Items</span>
 									<?php } ?>
-									<input type="submit" name="" value="<?php echo apply_filters('zs_search_txt' , 'Search' ); ?>">
 								</div>
 								<?php if(isset($sz_sc_attr['version']) && ( $sz_sc_attr['version']== "v2" || $sz_sc_attr['version']== "v3" ) ){ ?>
 									<div class="style_list_button">
+										<div class="bhava_intro_popup">
+											<a href="javascript:;" id='bhava_open_modal' data-target='#modal' >How to use BHAVA</a>
+										</div>
 										<a href="javascript:;" id="reset-frm" >Clear Selection</a>
 										<button type="button" name="menu_style" class="change_style_btn active_style" >
-											<img class="menu_icon style_icon" src="<?php echo plugin_dir_url(__FILE__); ?>/img/layout-list.svg">
+											<img class="menu_icon style_icon" src="<?php echo plugin_dir_url(__FILE__); ?>/img/layout-list.svg" alt="Click to switch layouts (no change to selection)">
 											<img class="list_icon style_icon" src="<?php echo plugin_dir_url(__FILE__); ?>/img/list-check.svg">
 											<span>Menu layout</span>
 										</button>
@@ -543,7 +548,7 @@
 									</div>
 								<?php } ?>
 							</div>
-							<div class="list-footer">
+							<div class="list-footer" style="display:none;">
 								<input type="submit" name="" value="Search">
                                 <div class="ajax-response" ></div>
 							</div>
@@ -555,10 +560,21 @@
 				<div class="notice notice-warning is-dismissible">
 					<p><?php _e('Please import master file to render search form.', $this->plugin_name) ?></p>
 				</div>
-			<?php } 
-		
+			<?php } ?>
+			<div class='bhava_intro_modal' id='modal'>
+			    <div class='modal-dialog'>
+			        <div class='modal__header'>
+			            <div class='close close-modal'>
+			                <i class='fa-solid fa-xmark'></i>
+			            </div>
+			        </div>
+			        <div class='modal__body'>
+			        </div>
+			    </div>
+			</div>
+		<?php
 		}
-
+		
 		public function zs_generate_zotero_url_callback(){
 			$items_id = $_POST['items_id'];
 			$AjaxResponse = [

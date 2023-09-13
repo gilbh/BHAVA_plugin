@@ -6,7 +6,7 @@
 .parent-div{
 	display: flex;
 	width: 100%;
-	margin: 50px 0;
+	margin: 30px 0;
 }
 .parent-div .zs_shortcode_form {
 	width: 100%;
@@ -81,11 +81,11 @@
 .zs_shortcode_form .main_row label.readonly {
   pointer-events: none;
   cursor: wait;
-  //opacity: 0.5;
+  /* opacity: 0.5; */
 }
 
 .zs_shortcode_form .list-head {
-    margin: 10px 0;
+/*     margin: 10px 0; */
     display: flex;
 /*     align-items: center; */
 }
@@ -311,3 +311,63 @@ span.result_count {
 /*     height: 100%; */
 }
 
+/* 22-08-23  */
+.bhava_intro_modal {
+  position: fixed;
+  top: 0;
+  left: 100%;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.bhava_intro_modal .modal-dialog {
+  max-width: 90vw;
+  min-width: 50vw;
+  max-height: 90vh;
+  background-color: #ededed;
+  box-shadow: 0 0 15px 0 black;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transform: scale(0.9);
+  transition: transform 0.3s ease-in-out;
+}
+.modal--show {
+  left: 0;
+}
+.modal--show .modal-dialog {
+  transform: scale(1);
+}
+.modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 3rem;
+    padding-inline: 1.5rem;
+}
+.modal__header .close {
+  cursor: pointer;
+}
+.modal__body {
+  max-height: calc(90vh - 7rem);
+  overflow-y: auto;
+  padding-inline: 1.5rem;
+  padding-block: 1rem;
+}
+
+.close.close-modal {
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+}
+body.overflow-hidden header#grve-header {
+    z-index: 1;
+}
+.overflow-hidden {
+  overflow: hidden;
+}
+.bhava_intro_popup {
+    margin: 10px;
+}
