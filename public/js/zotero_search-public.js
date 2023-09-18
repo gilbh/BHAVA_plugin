@@ -31,6 +31,7 @@
 
 	var counting = true;
 	var AID = '';
+	var activeAjaxRequests = [];
 	
 	var typingTimer;
 	$(document).on('input', '.zs_shortcode_form input[name="keyword"]', function(){
@@ -140,6 +141,7 @@
 			var formData = new FormData(document.querySelector('.zs_item_frm'));
 			var submitBtn = $('.zs_shortcode_form [type=submit]');
 			submitBtn.attr('redirect_url','' );
+			submitBtn.attr('items_id','' );
 			$('.ajax-response').html('');
 			let thisKey = $this.attr('name').replace('[]', '').replace('_all', '');
 			let thisVal = $this.attr('value');
@@ -152,9 +154,13 @@
 				success: function(responce){
 					var resp = JSON.parse(responce);
 					if(resp.status == 'success'){
-						btnText = 'Show ' + resp.found_items + ' Results >>';;
+						if( resp.mainQuery != 'SELECT DISTINCT A.item_id FROM wp_zs_itemmeta AS A WHERE' ){
+							btnText = 'Show ' + resp.found_items + ' Results >>';;
+						}else{
+							btnText = 'Search';
+						}
 						items_id = resp.data_items;
-						if(AID == '') AID = resp.api;
+						if(AID == '' || typeof AID === 'undefined') AID = resp.api;
 
 					}else{
 						btnText = 'Search';
@@ -183,19 +189,34 @@
 		e.preventDefault();
 		var $this = $(this);
 		var items_id = $this.attr('items_id');
+		var modal_target = $this.data("target");
+		var bhavamodalBody = $('.bhava_intro_modal .modal__body');
 		var redirect_url = $this.attr('redirect_url');
-		if(redirect_url != ''){
+		if(typeof redirect_url === "undefined" || items_id === ''){
+			bhavamodalBody.html("<p>Please select an item to begin searching the BHAVA database</p>");
+			jQuery(modal_target).addClass("modal--show");
+			jQuery('body').addClass("overflow-hidden");
+			return;
+		}
+		if(redirect_url != '' ){
 			window.open(redirect_url, '_blank');
 		}else{
 			var ajaxresponse = $('.ajax-response');
 			ajaxresponse.html('');
-
+			ajaxresponse.show();
 			if(items_id != '' && items_id != undefined && items_id.length > 0  ){
 				if(AID != '' && AID != undefined){
 					items_id = items_id.split(',');
 					var submitBtn = $('.zs_shortcode_form [type=submit]');
 					submitBtn.attr('disabled' , true);
-					ajaxresponse.html('<p>Please wait, fetching item data..</p>' );
+					ajaxresponse.hide();
+					ajaxresponse.html('<p>Please wait, generating URL ...</p>' );
+					// Modal Body writ JS
+					bhavamodalBody.html('<p>Please wait, generating URL ...</p>' );
+					// Modal Open JS
+					jQuery(modal_target).addClass("modal--show");
+					jQuery('body').addClass("overflow-hidden");
+
 					// Number of Items per API call
 					var NIPR = 10;
 					// Number of API calls
@@ -216,7 +237,7 @@
 					var APIKey = AID.key;
 					while(items_id.length) { 
 						var itemKey = items_id.splice(0,NIPR).join(",");
-						$.ajax({ 
+						var request_ajax_item = $.ajax({ 
 							method: 'GET', 
 							url: APIEndpoint, 
 							// async: false ,
@@ -261,6 +282,8 @@
 							},
 							complete: function(){ NACC++; }
 						});
+
+						activeAjaxRequests.push(request_ajax_item);
 					}
 					
 					$(document).ajaxComplete(function(event, request, settings) {
@@ -274,7 +297,11 @@
                             var totalItemNumber = updateItems.length;
                             var totalUpdateCall = Math.ceil(totalItemNumber/chunk);
                             var itemUpdateErrors = [];
+							ajaxresponse.hide();
 							ajaxresponse.html('<p>Please wait, generating URL ...</p>' );
+							bhavamodalBody.html('<p>Please wait, generating URL ...</p>' );
+							jQuery(modal_target).addClass("modal--show");
+							jQuery('body').addClass("overflow-hidden");
 //                             setTimeout(function(){
 //                             ajaxresponse.html('<p>still working, estimated time should no be longer than 45 seconds</p>' );
 // 							},10000);
@@ -324,9 +351,11 @@
 								setTimeout(function(){
 									window.open(redirect, '_blank');
 									ajaxresponse.html('<p>If not automatically redirected click here: <a target="_blank" href="'+redirect+'" >'+redirect+'</a><br><strong>This link will expire after 24 hours</strong>. To keep the results, select the desired bibliographies in Zotero and export them by clicking on the <img src="'+ zs_wpjs.plugin_url +'/img/export.svg"> icon.</p>');
+									$(".close-modal").trigger('click');
 									if(itemUpdateErrors.length > 0){
 									$.each(itemUpdateErrors, function($i, $errorMsg){
 											ajaxresponse.append('<p style="color:red;" >ERROR: Error while updating item tags. '+$errorMsg+'</p>');
+											bhavamodalBody.html('<p style="color:red;" >ERROR: Error while updating item tags. '+$errorMsg+'</p>');
 										});
 									}
 								},1000);
@@ -334,7 +363,7 @@
 
 						}				
 					});
-				}else ajaxresponse.html('<p style="color:red;" >API data missing! Please contact Administrator!</p>');
+				}else { ajaxresponse.html('<p style="color:red;" >API data missing! Please contact Administrator!</p>'); bhavamodalBody.html('<p style="color:red;" >API data missing! Please contact Administrator!</p>'); }
 			}
 		}
 
@@ -345,6 +374,7 @@
 		$('.zs_item_frm').trigger("reset");
 		$('.zs_shortcode_form input:checkbox').removeAttr('checked').trigger("change");
 		$('.zs_result_listing').remove();
+		$('.zs_shortcode_form [type=submit]').attr("items_id",'');
 	});
 	$(document).on('click', '#copy_tagline', function(){
 		CopyToClipboard('taglines');
@@ -472,5 +502,26 @@
 		jQuery(this).parent().siblings().slideToggle('fast');
 		jQuery(this).toggleClass('close');
 	});
+	
+	// 22-08-23
+		jQuery(document).on("click","#bhava_open_modal", function(){
+			var bhava_content = $('#bhava_intro_content .grve-element.grve-text').html();
+			$('.bhava_intro_modal .modal__body').html(bhava_content);
+			jQuery(jQuery(this).data("target")).addClass("modal--show");
+			jQuery('body').addClass("overflow-hidden");
+		});
+
+		jQuery(document).on("click", ".close-modal", function(){
+			jQuery(this).parents(".bhava_intro_modal").removeClass("modal--show");
+			jQuery('body').removeClass("overflow-hidden");
+			if(activeAjaxRequests != 'undefined'){
+				console.log('aaaa');
+				activeAjaxRequests.forEach(function(xhr) {
+					xhr.abort(); // Abort the request
+				});
+				// Clear the active requests array
+				activeAjaxRequests = [];
+			}
+		});
 
 })( jQuery );

@@ -174,6 +174,11 @@ i {
     width: calc( 100% - 10px ) !important;
     padding: 12px 15px;
     cursor: pointer;
+    transition: 0.3s all ease-in-out;
+}
+
+.zs_shortcode_form .menu_style_active .main_row label:hover {
+    background: #e4e4e4;
 }
 
 .zs_shortcode_form .menu_style_active .main_row label.checked {

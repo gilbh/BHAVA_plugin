@@ -319,7 +319,7 @@
 										<input type="hidden" name="action" value="zs_search_items" >
 										<input type="hidden" name="all_checked" id="all_checked" value="" >
 										<input type="text" name="keyword" placeholder="Enter keyword here.." style="width: 30%;display: none;">
-										<input type="submit" name="" value="<?php echo apply_filters('zs_search_txt' , 'Search' ); ?>">
+										<input type="submit" name="" value="<?php echo apply_filters('zs_search_txt' , 'Search' ); ?>" data-target='#modal'>
 									</div>
 									<?php $zs_zotero_total_items = get_option('zs_zotero_total_items');
 										if ($zs_zotero_total_items) { ?>
@@ -341,7 +341,7 @@
 									</div>
 								<?php } ?>
 							</div>
-							<div class="ajax-response" ></div>
+							<div class="ajax-response"></div>
 								<?php 
 								if($curators){
 									$dh = 73;
