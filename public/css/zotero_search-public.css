@@ -3,7 +3,7 @@
  * included in this file.
  */
 
-.parent-div{
+ .parent-div{
 	display: flex;
 	width: 100%;
 	margin: 30px 0;
@@ -81,7 +81,7 @@
 .zs_shortcode_form .main_row label.readonly {
   pointer-events: none;
   cursor: wait;
-  /* opacity: 0.5; */
+  //opacity: 0.5;
 }
 
 .zs_shortcode_form .list-head {
@@ -173,8 +173,7 @@ i {
     display: inline-block;
     width: calc( 100% - 10px ) !important;
     padding: 12px 15px;
-    cursor: pointer;
-    transition: 0.3s all ease-in-out;
+    cursor: pointer; 
 }
 
 .zs_shortcode_form .menu_style_active .main_row label:hover {
@@ -249,7 +248,7 @@ img.style_icon {
     margin-right: 10px;
 	height: 20px;
 }
-button[name="menu_style"] > .list_icon, button[name="list_style"] > .menu_icon {
+a[name="menu_style"] > .list_icon, a[name="list_style"] > .menu_icon {
 	display:none;
 }
 .zs_shortcode_form .change_style_btn.active_style{
@@ -261,7 +260,17 @@ button[name="menu_style"] > .list_icon, button[name="list_style"] > .menu_icon {
     padding: 0.9rem 2rem;
     min-height: 50.38px;
     min-width: 220px;
+    font-family: "Open Sans";
+    font-weight: 700;
+    font-style: normal;
+    font-size: 12px !important;
+    text-transform: none;
+    color: #fff;
+    letter-spacing: 0.300em;
+    line-height: 20px;
+	cursor: pointer;
 }
+
 .zotero_category_list.menu_style_show{
 	display:flex;
 	flex-wrap:wrap;
@@ -349,7 +358,7 @@ span.result_count {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    height: 3rem;
+    margin-top: 1rem;
     padding-inline: 1.5rem;
 }
 .modal__header .close {
@@ -360,6 +369,7 @@ span.result_count {
   overflow-y: auto;
   padding-inline: 1.5rem;
   padding-block: 1rem;
+	padding-top: 0.6rem;
 }
 
 .close.close-modal {
@@ -375,4 +385,7 @@ body.overflow-hidden header#grve-header {
 }
 .bhava_intro_popup {
     margin: 10px;
+}
+input[type=submit].search_items{
+    display: none;
 }

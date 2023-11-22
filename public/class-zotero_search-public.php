@@ -319,7 +319,7 @@
 										<input type="hidden" name="action" value="zs_search_items" >
 										<input type="hidden" name="all_checked" id="all_checked" value="" >
 										<input type="text" name="keyword" placeholder="Enter keyword here.." style="width: 30%;display: none;">
-										<input type="submit" name="" value="<?php echo apply_filters('zs_search_txt' , 'Search' ); ?>" data-target='#modal'>
+										<input type="submit" name="" value="<?php echo apply_filters('zs_search_txt' , 'Search' ); ?>" class="search_items" data-target='#modal'>
 									</div>
 									<?php $zs_zotero_total_items = get_option('zs_zotero_total_items');
 										if ($zs_zotero_total_items) { ?>
@@ -332,16 +332,16 @@
 											<a href="javascript:;" id='bhava_open_modal' data-target='#modal' >How to use BHAVA</a>
 										</div>
 										<a href="javascript:;" id="reset-frm" >Clear Selection</a>
-										<button type="button" name="menu_style" class="change_style_btn active_style" >
+										<a title="Click to switch layouts (no change to selection)" alt="Click to switch layouts (no change to selection)" type="button" name="menu_style" class="change_style_btn active_style" >
 											<img class="menu_icon style_icon" src="<?php echo plugin_dir_url(__FILE__); ?>/img/layout-list.svg" alt="Click to switch layouts (no change to selection)">
 											<img class="list_icon style_icon" src="<?php echo plugin_dir_url(__FILE__); ?>/img/list-check.svg">
 											<span>Menu layout</span>
-										</button>
+										</a>
 		<!-- 									<input type="button" name="menu_style" class="change_style_btn" value="Menu View"> -->
 									</div>
 								<?php } ?>
 							</div>
-							<div class="ajax-response"></div>
+							<div class="ajax-response" ></div>
 								<?php 
 								if($curators){
 									$dh = 73;
@@ -671,7 +671,6 @@
 					}
 				// }
 			}
-
 
 			$AjaxResponse['failed']  = $failed;
 				

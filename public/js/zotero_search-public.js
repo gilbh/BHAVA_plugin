@@ -67,7 +67,7 @@
 			$(this).parents('.main_row').find('.check_all').parent().addClass("checked");
 			tempVal = $(this).parents('.main_row').find('.check_all').data('name');
 			all_checked_val = all_checked_val.replace(tempVal + ",", "");
-			all_checked_val = all_checked_val + tempVal + "," ;				
+			all_checked_val = all_checked_val + tempVal + "," ;	
 		}else{ 
 			$(this).parents('.main_row').find('.check_all').prop("checked" , false);
 			$(this).parents('.main_row').find('.check_all').parent().removeClass("checked");
@@ -78,6 +78,7 @@
 		
 		var missings = [];
 		var selectedRowCount = 0;
+		var checked = false;
 		$('.zs_shortcode_form .main_row').each(function(index,ele){
 			var tag_lines = '';
 			var menu_tagLines = '';
@@ -85,6 +86,7 @@
 			$('input[type="checkbox"]:checked:not(.check_all)', this).each(function(){
 				tag_lines = tag_lines + $(this).data('label') + ' | ';
 				menu_tagLines = menu_tagLines + $(this).data('label') + '/';
+				if(this.checked){ checked = true; }
 			});
 
 			tag_lines = tag_lines.slice(0,-2);
@@ -134,7 +136,7 @@
 			$(this).parent('label').removeClass('checked');
 		}
 		zs_shortcode_form.css('cursor', 'wait');
-		
+		if(checked){ $('input.search_items').show(); $('.result_count').hide(); }else{ $('input.search_items').hide(); $('.result_count').show(); }
 		if(counting){
 			counting = false;
 			var btnText = 'Search', items_id = '';
@@ -229,6 +231,7 @@
 					var today = new Date();
 					var yesterday  = new Date(today); yesterday.setDate(yesterday.getDate() - 1)
 					var yesterdayDate = yesterday.getFullYear()+''+(yesterday.getMonth()+1)+''+yesterday.getDate();
+                    yesterdayDate = new Date(yesterdayDate);
 					// var token_prefix = 'temp_id_';
 					var token_prefix = 'temp_id_'+ generateRandomNumber() + '|';
 					var TOKEN = token_prefix + Math.floor(today.getTime() / 1000);
@@ -260,7 +263,7 @@
                                                 var tdate = tNow.getFullYear()+''+(tNow.getMonth()+1)+''+tNow.getDate();
                                                 //Only include tags not older then 2 days 
                                                 if($.isNumeric(tdate)){
-                                                    if( tdate >= yesterdayDate){
+                                                    if( tNow >= yesterdayDate){
                                                         newTags.push({ tag: tTag});
                                                     }
                                                 }else newTags.push({ tag: tTag});
