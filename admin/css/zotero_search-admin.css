@@ -36,6 +36,7 @@
     display: flex;
     flex-direction: column;
     margin: 5px 0;
+    cursor: inherit;
 }
 .zotero-admin_page_zotero_search-import form:not(#facetes_label_update), .zotero-admin_page_zotero_search-import .subtable-main, .toplevel_page_zotero_search-admin form:not(#facetes_label_update), .toplevel_page_zotero_search-admin .subtable-main{
     border-bottom: 1px solid rgb(64, 62, 62);

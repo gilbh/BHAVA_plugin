@@ -259,7 +259,7 @@ class Zotero_search_Admin {
 
 			    
 			wp_redirect(add_query_arg([
-				'settings-updated' => $status,
+				'settings_updated' => $status,
 				'action' => 'import_master_file',
 			] ,  wp_get_referer()));
 			
@@ -280,10 +280,10 @@ class Zotero_search_Admin {
 	 
 	    //return if not plugin settings page 
 	    //To get the exact your screen ID just do ver_dump($screen)
-	    if ( $screen->id !== 'toplevel_page_zotero_search-import') return;
+	   	if ( $screen->id !== 'toplevel_page_zotero_search-admin' && $screen->id !== 'zotero-admin_page_zotero_search-import') return;
 	         
 	    //Checks if settings updated 
-	    if ( isset( $_GET['settings-updated'] ) ) {
+	    if ( isset( $_GET['settings_updated'] ) ) {
 	        //if settings updated successfully 
 	        if ( 'true' === $_GET['settings-updated'] ) : ?>
 
@@ -452,7 +452,7 @@ class Zotero_search_Admin {
 			if(isset( $_POST['result_count'] )){
 				$del_count = $_POST['result_count'];
 			}else{
-        		$del_count = 2;
+        		$del_count = 0;
         	}
 			$que[] = '';
 			$del_ids[] = '';
