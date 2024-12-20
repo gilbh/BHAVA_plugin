@@ -315,16 +315,26 @@
 							<?php if ($curators) { echo "<h2>Curators</h2>"; } ?>
 							<div class="search-wrapper">
 								<div class="style_list_button">
-									<div class="list-head">
-										<input type="hidden" name="action" value="zs_search_items" >
-										<input type="hidden" name="all_checked" id="all_checked" value="" >
-										<input type="text" name="keyword" placeholder="Enter keyword here.." style="width: 30%;display: none;">
-										<input type="submit" name="" value="<?php echo apply_filters('zs_search_txt' , 'Search' ); ?>" class="search_items" data-target='#modal'>
+									<div class="style_list_wrapp">
+										<div class="guide_meg">Choose from the tiles below and then click Search</div>
+										<div class="result_count_wrapper">
+											<div class="list-head">
+												<input type="hidden" name="action" value="zs_search_items" >
+												<input type="hidden" name="all_checked" id="all_checked" value="" >
+												<input type="text" name="keyword" placeholder="Enter keyword here.." style="width: 30%;display: none;">
+												<input type="submit" name="" value="<?php echo apply_filters('zs_search_txt' , 'Search' ); ?>" class="search_items" data-target='#modal'>
+											</div>
+											<?php $zs_zotero_total_items = get_option('zs_zotero_total_items');
+												if ($zs_zotero_total_items) { ?>
+													<span class="result_count"> Total Records: <?php echo $zs_zotero_total_items; ?> Items</span>
+											<?php } ?>
+										</div>
 									</div>
-									<?php $zs_zotero_total_items = get_option('zs_zotero_total_items');
-										if ($zs_zotero_total_items) { ?>
-											<span class="result_count"> Total Records: <?php echo $zs_zotero_total_items; ?> Items</span>
-									<?php } ?>
+								</div>
+								<div class="style_list_button">
+									<span class="suggest-items-form">
+										<a href="https://www.regionalbhakti.org/suggested-items/">Suggest an Item to Add</a>
+									</span>
 								</div>
 								<?php if(isset($sz_sc_attr['version']) && ( $sz_sc_attr['version']== "v2" || $sz_sc_attr['version']== "v3" ) ){ ?>
 									<div class="style_list_button">

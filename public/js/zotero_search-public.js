@@ -195,9 +195,10 @@
 		var bhavamodalBody = $('.bhava_intro_modal .modal__body');
 		var redirect_url = $this.attr('redirect_url');
 		if(typeof redirect_url === "undefined" || items_id === ''){
-			bhavamodalBody.html("<p>Please select an item to begin searching the BHAVA database</p>");
-			jQuery(modal_target).addClass("modal--show");
-			jQuery('body').addClass("overflow-hidden");
+			window.open("https://www.zotero.org/groups/783482/bhava/library", "_blank");
+			// bhavamodalBody.html("<p>Please select an item to begin searching the BHAVA database</p>");
+			// jQuery(modal_target).addClass("modal--show");
+			// jQuery('body').addClass("overflow-hidden");
 			return;
 		}
 		if(redirect_url != '' ){
@@ -378,6 +379,13 @@
 		$('.zs_shortcode_form input:checkbox').removeAttr('checked').trigger("change");
 		$('.zs_result_listing').remove();
 		$('.zs_shortcode_form [type=submit]').attr("items_id",'');
+		const searchItems = document.querySelector(".style_list_button .search_items");
+        if (searchItems) {
+            searchItems.items_id = ''; // Reset the value
+            searchItems.style.display = 'block'; // Ensure it's visible
+        }
+        $('.style_list_button .search_items [type=submit]').attr("items_id", '');
+        console.log("Form reset and list_style results cleared.");
 	});
 	$(document).on('click', '#copy_tagline', function(){
 		CopyToClipboard('taglines');
@@ -526,5 +534,33 @@
 				activeAjaxRequests = [];
 			}
 		});
+
+		jQuery(document).on("click", ".list_icon ", function(){
+            if (document.querySelector('.main_row').find('.check_all').prop("checked" , true)) {
+                document.querySelector(".style_list_button .search_items").style.display='none';
+            } else {
+                document.querySelector(".style_list_button .search_items").style.display='block';
+            }
+        });
+
+        $(document).ready(function () {
+            function toggleResponsiveClass() {
+                if ($(window).width() <= 991) {
+                  $('.main_row_content').addClass('list_style_active');
+                  $('.main_row_content').removeClass('menu_style_active');
+                } else {
+                  $('.main_row_content').removeClass('list_style_active');
+                  $('.main_row_content').addClass('menu_style_active');
+                }
+              }
+
+              // Check on page load
+              toggleResponsiveClass();
+
+              // Check on window resize
+              $(window).resize(function () {
+                toggleResponsiveClass();
+              });
+        });
 
 })( jQuery );
